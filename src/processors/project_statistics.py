@@ -3,6 +3,7 @@ import datetime as dt
 import os
 from pathlib import Path
 import sys
+import argparse
 
 # Add src to path for imports
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -146,10 +147,17 @@ def apply_manual_adjustments(projects_pivot):
     
     return adjusted_pivot, adjustments
 
-def create_excel_report(hours_pivot, volunteers_pivot, projects_pivot, adjustments, output_dir="data/processed"):
+def create_excel_report(hours_pivot, volunteers_pivot, projects_pivot, adjustments, output_dir="data/processed", format_type="excel"):
+    """Create Excel or CSV report for PowerPoint integration"""
+    if format_type.lower() == "csv":
+        logger.info("\n📊 Creating CSV Reports for PowerPoint...")
+        return create_csv_report(hours_pivot, volunteers_pivot, projects_pivot, adjustments, output_dir)
+    else:
+        logger.info("\n📊 Creating Excel Report for PowerPoint...")
+        return create_excel_report_internal(hours_pivot, volunteers_pivot, projects_pivot, adjustments, output_dir)
+
+def create_excel_report_internal(hours_pivot, volunteers_pivot, projects_pivot, adjustments, output_dir="data/processed"):
     """Create Excel report for PowerPoint integration"""
-    logger.info("\n📊 Creating Excel Report for PowerPoint...")
-    
     # Create output directory
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     
@@ -199,6 +207,77 @@ def create_excel_report(hours_pivot, volunteers_pivot, projects_pivot, adjustmen
     
     logger.info(f"✅ Excel report saved: {filepath}")
     return filepath
+
+def create_csv_report(hours_pivot, volunteers_pivot, projects_pivot, adjustments, output_dir="data/processed"):
+    """Create CSV reports for PowerPoint integration"""
+    # Create output directory
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
+    
+    # Generate timestamp for filenames
+    timestamp = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
+    created_files = []
+    
+    # Save each pivot table as separate CSV files
+    hours_filename = f"Y_Volunteer_2025_Hours_Statistics_{timestamp}.csv"
+    hours_filepath = os.path.join(output_dir, hours_filename)
+    hours_pivot.to_csv(hours_filepath, index=False)
+    created_files.append(hours_filepath)
+    logger.info(f"✅ Hours statistics CSV saved: {hours_filepath}")
+    
+    volunteers_filename = f"Y_Volunteer_2025_Volunteers_Statistics_{timestamp}.csv"
+    volunteers_filepath = os.path.join(output_dir, volunteers_filename)
+    volunteers_pivot.to_csv(volunteers_filepath, index=False)
+    created_files.append(volunteers_filepath)
+    logger.info(f"✅ Volunteers statistics CSV saved: {volunteers_filepath}")
+    
+    projects_filename = f"Y_Volunteer_2025_Projects_Statistics_{timestamp}.csv"
+    projects_filepath = os.path.join(output_dir, projects_filename)
+    projects_pivot.to_csv(projects_filepath, index=False)
+    created_files.append(projects_filepath)
+    logger.info(f"✅ Projects statistics CSV saved: {projects_filepath}")
+    
+    # Create summary CSV
+    summary_data = {
+        'Metric': [
+            'Total Project Categories',
+            'Total Hours (No Deduplication)',
+            'Total Unique Volunteers',
+            'Total Unique Projects',
+            'Date Range',
+            'Report Generated'
+        ],
+        'Value': [
+            len(hours_pivot),
+            f"{hours_pivot['TOTAL_HOURS'].sum():.1f}",
+            volunteers_pivot['UNIQUE_VOLUNTEERS'].sum(),
+            len(projects_pivot),
+            f"Jan-Aug 2025",
+            dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        ]
+    }
+    
+    summary_df = pd.DataFrame(summary_data)
+    summary_filename = f"Y_Volunteer_2025_Summary_{timestamp}.csv"
+    summary_filepath = os.path.join(output_dir, summary_filename)
+    summary_df.to_csv(summary_filepath, index=False)
+    created_files.append(summary_filepath)
+    logger.info(f"✅ Summary CSV saved: {summary_filepath}")
+    
+    # Add adjustments CSV if any
+    if adjustments:
+        adjustments_data = {
+            'Adjustment': adjustments,
+            'Notes': ['Manual consolidation for accounting purposes'] * len(adjustments)
+        }
+        adjustments_df = pd.DataFrame(adjustments_data)
+        adjustments_filename = f"Y_Volunteer_2025_Manual_Adjustments_{timestamp}.csv"
+        adjustments_filepath = os.path.join(output_dir, adjustments_filename)
+        adjustments_df.to_csv(adjustments_filepath, index=False)
+        created_files.append(adjustments_filepath)
+        logger.info(f"✅ Manual adjustments CSV saved: {adjustments_filepath}")
+    
+    logger.info(f"✅ CSV reports created: {len(created_files)} files")
+    return created_files
 
 def create_step3_summary_report(hours_pivot, volunteers_pivot, projects_pivot, adjustments, output_dir="data/processed"):
     """Add Step 3 results to comprehensive summary report"""
@@ -266,11 +345,40 @@ def clean_output_directory(output_dir="data/processed"):
 
 def main():
     """Main processing function for Step 3: Project Category Statistics"""
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(
+        description='Generate YMCA Volunteer Statistics Reports',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python project_statistics.py                    # Generate Excel report (default)
+  python project_statistics.py --format csv       # Generate CSV reports
+  python project_statistics.py --format excel     # Generate Excel report explicitly
+        """
+    )
+    
+    parser.add_argument(
+        '--format',
+        choices=['excel', 'csv'],
+        default='excel',
+        help='Output format: excel (default) or csv'
+    )
+    
+    parser.add_argument(
+        '--output-dir',
+        default='data/processed',
+        help='Output directory for reports (default: data/processed)'
+    )
+    
+    args = parser.parse_args()
+    
     logger.info("📊 YMCA Volunteer Statistics - Step 3: Project Category Statistics")
     logger.info("=" * 70)
+    logger.info(f"📁 Output format: {args.format.upper()}")
+    logger.info(f"📁 Output directory: {args.output_dir}")
     
     # Clean output directory first
-    clean_output_directory()
+    clean_output_directory(args.output_dir)
     
     # Find the most recent raw data file
     latest_file = find_latest_file("Raw_Data_*.xlsx", "data/processed")
@@ -295,22 +403,35 @@ def main():
     # Apply manual adjustments
     projects_pivot_adjusted, adjustments = apply_manual_adjustments(projects_pivot)
     
-    # Create Excel report
-    excel_file = create_excel_report(hours_pivot, volunteers_pivot, projects_pivot_adjusted, adjustments)
+    # Create report in requested format
+    report_file = create_excel_report(hours_pivot, volunteers_pivot, projects_pivot_adjusted, adjustments, args.output_dir, args.format)
     
     # Add to comprehensive summary report
-    summary_file = create_step3_summary_report(hours_pivot, volunteers_pivot, projects_pivot_adjusted, adjustments)
+    summary_file = create_step3_summary_report(hours_pivot, volunteers_pivot, projects_pivot_adjusted, adjustments, args.output_dir)
     
     logger.info("\n🎯 Summary for PowerPoint Report:")
     logger.info(f"📊 Hours Statistics: {len(hours_pivot)} project categories")
     logger.info(f"👥 Volunteers Statistics: {len(volunteers_pivot)} project categories")
     logger.info(f"🏗️ Projects Statistics: {len(projects_pivot_adjusted)} unique projects")
-    logger.info(f"📁 Excel file ready for PowerPoint: {excel_file}")
-    logger.info(f"📝 Summary report updated: {summary_file}")
+    
+    if args.format.lower() == "csv":
+        logger.info(f"📁 CSV files ready for data sharing:")
+        if isinstance(report_file, list):
+            for file_path in report_file:
+                logger.info(f"  • {os.path.basename(file_path)}")
+    else:
+        logger.info(f"📁 Excel file ready for PowerPoint: {os.path.basename(report_file)}")
+    
+    logger.info(f"📝 Summary report updated: {os.path.basename(summary_file)}")
     
     logger.info("\n📋 Next Steps:")
-    logger.info("1. Review the Excel file for accuracy")
-    logger.info("2. Import data into PowerPoint: Y Monthly Statistics Report 8.31.2025")
+    if args.format.lower() == "csv":
+        logger.info("1. Review the CSV files for accuracy")
+        logger.info("2. Import CSV data into your preferred analysis tool")
+        logger.info("3. Use for data sharing and backup purposes")
+    else:
+        logger.info("1. Review the Excel file for accuracy")
+        logger.info("2. Import data into PowerPoint: Y Monthly Statistics Report 8.31.2025")
     logger.info("3. Verify manual adjustments for Competitive Swim and Gymnastics")
     logger.info("4. Confirm total of 6 projects as expected")
     
@@ -318,8 +439,9 @@ def main():
         'hours_pivot': hours_pivot,
         'volunteers_pivot': volunteers_pivot,
         'projects_pivot': projects_pivot_adjusted,
-        'excel_file': excel_file,
-        'summary_file': summary_file
+        'report_file': report_file,
+        'summary_file': summary_file,
+        'format': args.format
     }
 
 if __name__ == "__main__":
