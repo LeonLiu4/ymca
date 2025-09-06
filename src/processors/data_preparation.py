@@ -2,22 +2,19 @@ import pandas as pd
 import datetime as dt
 import os
 from pathlib import Path
-import logging
+import sys
 
-# Set up logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+# Add src to path for imports
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+
+from src.utils.logging_config import setup_logger
+from src.utils.file_utils import load_excel_data, save_excel_data, find_latest_file
+
+logger = setup_logger(__name__, 'data_preparation.log')
 
 def load_volunteer_data(file_path):
     """Load volunteer data from Excel file"""
-    try:
-        df = pd.read_excel(file_path)
-        logger.info(f"✅ Loaded {len(df)} rows from {file_path}")
-        logger.info(f"Columns: {list(df.columns)}")
-        return df
-    except Exception as e:
-        logger.error(f"❌ Error loading file: {e}")
-        return None
+    return load_excel_data(file_path)
 
 def clean_volunteer_data(df):
     """🧹 Step 2: Prepare the Data - Remove 0 hours and clean data"""
@@ -58,10 +55,10 @@ def clean_volunteer_data(df):
     
     return df_cleaned
 
-def save_raw_data(df, output_dir="processed_data"):
+def save_raw_data(df, output_dir="data/processed"):
     """Save cleaned data as 'Raw Data' file for multiple deduplication/pivot steps"""
     # Create output directory
-    Path(output_dir).mkdir(exist_ok=True)
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
     
     # Generate filename with timestamp
     timestamp = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -118,7 +115,7 @@ def deduplicate_data(df, method="activity"):
     
     return df_dedup
 
-def create_summary_report(df, output_dir="processed_data"):
+def create_summary_report(df, output_dir="data/processed"):
     """Create summary report for monthly review"""
     logger.info("\n📝 Creating Summary Report...")
     
@@ -174,13 +171,10 @@ def main():
     logger.info("=" * 60)
     
     # Find the most recent volunteer history file
-    excel_files = list(Path(".").glob("VolunteerHistory_*.xlsx"))
-    if not excel_files:
-        logger.error("❌ No VolunteerHistory_*.xlsx files found")
+    latest_file = find_latest_file("VolunteerHistory_*.xlsx", "data/raw")
+    if not latest_file:
+        logger.error("❌ No VolunteerHistory_*.xlsx files found in data/raw")
         return
-    
-    # Use the most recent file
-    latest_file = max(excel_files, key=os.path.getctime)
     logger.info(f"📁 Using file: {latest_file}")
     
     # Load data
