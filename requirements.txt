@@ -4,5 +4,9 @@ openpyxl>=3.0.0
 matplotlib>=3.5.0
 seaborn>=0.11.0
 numpy>=1.21.0
+# Web dashboard dependencies
 Flask>=2.3.0
 Werkzeug>=2.3.0
+
+# Data quality validation dependencies
+jsonschema>=4.0.0
