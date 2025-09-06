@@ -31,7 +31,8 @@ def main():
     print("1. Extract volunteer data (src/extractors/volunteer_history_extractor.py)")
     print("2. Prepare data (src/processors/data_preparation.py)")
     print("3. Generate statistics (src/processors/project_statistics.py)")
-    print("4. Review generated Excel files in data/processed/")
+    print("4. Generate histograms (python generate_histograms.py)")
+    print("5. Review generated Excel files in data/processed/")
     
     print("\nDirectory structure:")
     print("├── src/")
