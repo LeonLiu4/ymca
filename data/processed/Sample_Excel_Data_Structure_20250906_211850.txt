@@ -1,0 +1,34 @@
+SAMPLE EXCEL SUMMARY DATA
+========================================
+
+HOURS BY BRANCH SHEET:
+Branch,Total_Hours,Percentage
+Downtown YMCA,1250.5,34.9
+North Side YMCA,890.2,24.9
+East Branch YMCA,675.8,18.9
+West Community YMCA,445.3,12.4
+South YMCA,320.1,8.9
+
+TOP PROJECTS SHEET:
+Project,Assignment_Count,Percentage
+Youth Programs,850,25.1
+Swim Instruction,620,18.3
+Fitness Classes,445,13.1
+Community Events,380,11.2
+Senior Programs,290,8.6
+Childcare Support,245,7.2
+Maintenance Help,180,5.3
+Administrative Support,155,4.6
+Special Events,125,3.7
+Other Activities,95,2.8
+
+MONTHLY ACTIVITY SHEET:
+Month,Activity_Count,Percentage
+January 2025,245,7.9
+February 2025,289,9.3
+March 2025,334,10.7
+April 2025,398,12.8
+May 2025,445,14.3
+June 2025,512,16.4
+July 2025,467,15.0
+August 2025,423,13.6
