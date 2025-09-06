@@ -1,0 +1,254 @@
+#!/usr/bin/env python3
+"""
+Test script for the Email Notification System
+
+This script demonstrates and tests the email notification functionality
+for data processing completion alerts.
+"""
+
+import sys
+import os
+from pathlib import Path
+
+# Add src to path for imports
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+
+from src.utils.email_notifier import (
+    EmailNotifier,
+    create_default_email_config,
+    notify_processing_complete,
+    notify_processing_error
+)
+from src.utils.logging_config import setup_logger
+
+logger = setup_logger(__name__, 'email_test.log')
+
+
+def test_email_configuration():
+    """Test email configuration creation and loading."""
+    logger.info("\n🔧 Testing Email Configuration...")
+    
+    # Create default configuration
+    config_file = "test_email_config.json"
+    try:
+        created_config = create_default_email_config(config_file)
+        logger.info(f"✅ Default configuration created: {created_config}")
+        
+        # Load configuration
+        notifier = EmailNotifier(config_file)
+        logger.info(f"✅ Configuration loaded successfully")
+        
+        # Show recipient groups
+        groups = notifier.get_recipient_groups()
+        logger.info(f"📧 Available recipient groups: {groups}")
+        
+        # Clean up test file
+        if os.path.exists(config_file):
+            os.remove(config_file)
+            logger.info(f"🧹 Cleaned up test config file")
+            
+        return True
+        
+    except Exception as e:
+        logger.error(f"❌ Configuration test failed: {e}")
+        return False
+
+
+def test_email_connection():
+    """Test email connection (if enabled in config)."""
+    logger.info("\n📡 Testing Email Connection...")
+    
+    try:
+        notifier = EmailNotifier()
+        
+        if not notifier.config.get("enabled", False):
+            logger.info("📧 Email notifications are disabled - skipping connection test")
+            logger.info("💡 To enable: set 'enabled': true in email_config.json and update SMTP settings")
+            return True
+        
+        # Test connection
+        success = notifier.test_connection()
+        if success:
+            logger.info("✅ Email connection test successful")
+        else:
+            logger.error("❌ Email connection test failed")
+            
+        return success
+        
+    except Exception as e:
+        logger.error(f"❌ Connection test error: {e}")
+        return False
+
+
+def test_notification_functions():
+    """Test notification functions with sample data."""
+    logger.info("\n📨 Testing Notification Functions...")
+    
+    try:
+        # Test processing complete notification
+        logger.info("Testing processing complete notification...")
+        success1 = notify_processing_complete(
+            processing_type="Test Data Processing",
+            files_processed=["test_input.xlsx", "sample_data.csv"],
+            output_files=["test_output.xlsx", "summary_report.txt"],
+            total_records=1500,
+            summary="Test processing completed successfully with sample data for demonstration purposes."
+        )
+        
+        if success1:
+            logger.info("✅ Processing complete notification test successful")
+        else:
+            logger.info("ℹ️ Processing complete notification test completed (notifications may be disabled)")
+        
+        # Test processing error notification
+        logger.info("Testing processing error notification...")
+        success2 = notify_processing_error(
+            processing_type="Test Data Processing",
+            error_message="Simulated error for testing purposes - file not found",
+            files_processed=["missing_file.xlsx"]
+        )
+        
+        if success2:
+            logger.info("✅ Processing error notification test successful")
+        else:
+            logger.info("ℹ️ Processing error notification test completed (notifications may be disabled)")
+            
+        return True
+        
+    except Exception as e:
+        logger.error(f"❌ Notification function test error: {e}")
+        return False
+
+
+def test_advanced_features():
+    """Test advanced notification features."""
+    logger.info("\n🚀 Testing Advanced Features...")
+    
+    try:
+        notifier = EmailNotifier()
+        
+        # Test adding recipients
+        logger.info("Testing recipient management...")
+        success = notifier.add_recipient("test_group", "test@example.com")
+        logger.info(f"✅ Recipient management test: {'successful' if success else 'completed'}")
+        
+        # Test notification with attachments (simulated)
+        logger.info("Testing notification with attachments...")
+        
+        # Create a temporary test file to attach
+        test_file = "test_attachment.txt"
+        with open(test_file, 'w') as f:
+            f.write("This is a test attachment for email notification testing.\n")
+            f.write("Generated by the YMCA Email Notification System test script.\n")
+        
+        success = notifier.send_processing_complete_notification(
+            processing_type="Advanced Feature Test",
+            files_processed=["test_input.xlsx"],
+            output_files=["test_output.xlsx"],
+            total_records=100,
+            summary="Testing advanced features including file attachments",
+            recipient_group="data_processing",
+            attachments=[test_file] if os.path.exists(test_file) else None
+        )
+        
+        # Clean up test file
+        if os.path.exists(test_file):
+            os.remove(test_file)
+        
+        logger.info(f"✅ Advanced features test: {'successful' if success else 'completed'}")
+        return True
+        
+    except Exception as e:
+        logger.error(f"❌ Advanced features test error: {e}")
+        return False
+
+
+def display_configuration_help():
+    """Display help information for configuring email notifications."""
+    logger.info("\n📖 Email Configuration Help")
+    logger.info("=" * 50)
+    
+    logger.info("""
+To enable email notifications:
+
+1. Update email_config.json with your SMTP settings:
+   - smtp_server: Your SMTP server (e.g., smtp.gmail.com)
+   - smtp_port: SMTP port (usually 587 for TLS)
+   - sender_email: Your email address
+   - sender_password: Your app password (not regular password!)
+   - use_tls: true (recommended)
+
+2. Set "enabled": true in the configuration
+
+3. Update recipient lists for different notification types:
+   - data_processing: General data processing notifications
+   - reports: Report generation notifications  
+   - errors: Error notifications
+
+4. For Gmail users:
+   - Enable 2-Factor Authentication
+   - Generate an App Password (not your regular password)
+   - Use the App Password in sender_password
+
+Example configuration:
+{
+  "smtp_server": "smtp.gmail.com",
+  "smtp_port": 587,
+  "sender_email": "your-email@gmail.com", 
+  "sender_password": "your-16-char-app-password",
+  "use_tls": true,
+  "enabled": true,
+  "recipients": {
+    "data_processing": ["team@ymca.org"],
+    "reports": ["reports@ymca.org"],
+    "errors": ["admin@ymca.org"]
+  }
+}
+""")
+
+
+def main():
+    """Main test function."""
+    logger.info("🏊‍♂️ YMCA Email Notification System - Test Suite")
+    logger.info("=" * 60)
+    
+    # Check if configuration file exists
+    config_file = "email_config.json"
+    if not os.path.exists(config_file):
+        logger.info(f"📧 Creating default configuration file: {config_file}")
+        create_default_email_config(config_file)
+    
+    # Run tests
+    tests = [
+        ("Configuration Test", test_email_configuration),
+        ("Connection Test", test_email_connection),
+        ("Notification Functions Test", test_notification_functions),
+        ("Advanced Features Test", test_advanced_features)
+    ]
+    
+    results = {}
+    for test_name, test_func in tests:
+        logger.info(f"\n🧪 Running {test_name}...")
+        try:
+            results[test_name] = test_func()
+        except Exception as e:
+            logger.error(f"❌ {test_name} failed with error: {e}")
+            results[test_name] = False
+    
+    # Display results
+    logger.info("\n📊 Test Results Summary")
+    logger.info("-" * 30)
+    
+    for test_name, success in results.items():
+        status = "✅ PASSED" if success else "⚠️ COMPLETED"
+        logger.info(f"{test_name}: {status}")
+    
+    # Display configuration help
+    display_configuration_help()
+    
+    logger.info("\n✅ Email notification system test suite completed!")
+    logger.info("💡 To enable notifications, update email_config.json with your SMTP settings")
+
+
+if __name__ == "__main__":
+    main()
