@@ -1,0 +1,46 @@
+{
+  "filename": "VolunteerHistory_2025-01_to_2025-08.xlsx",
+  "total_records": 1250,
+  "validation_timestamp": "2025-09-06T21:37:38.870060",
+  "quality_score": 87,
+  "quality_rating": "Good",
+  "total_issues": 8,
+  "issues": [
+    {
+      "type": "duplicate_records",
+      "severity": "medium",
+      "count": 15,
+      "description": "Found 15 complete duplicate rows",
+      "field": null
+    },
+    {
+      "type": "missing_required_field",
+      "severity": "high",
+      "count": 23,
+      "percentage": 1.8,
+      "description": "Field 'Hours' has 23 missing values (1.8%)",
+      "field": "Hours"
+    },
+    {
+      "type": "invalid_date_format",
+      "severity": "medium",
+      "count": 7,
+      "description": "Field 'volunteerDate' has 7 invalid date formats",
+      "field": "volunteerDate"
+    },
+    {
+      "type": "negative_values",
+      "severity": "medium",
+      "count": 3,
+      "description": "Field 'Hours' has 3 negative values",
+      "field": "Hours"
+    },
+    {
+      "type": "inconsistent_formatting",
+      "severity": "low",
+      "count": 12,
+      "description": "Field 'assignment' has 12 values with inconsistent formatting",
+      "field": "assignment"
+    }
+  ]
+}
