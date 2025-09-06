@@ -1,6 +1,55 @@
 # YMCA Volunteer Data Processing System
 
-This repository contains a comprehensive data processing pipeline for YMCA volunteer statistics and reporting.
+This repository contains a comprehensive data processing pipeline for YMCA volunteer statistics and reporting, designed to generate data for the **Y Monthly Statistics Report 8.31.2025** PowerPoint presentation.
+
+## 📁 **File-to-Page Mapping:**
+
+### **📥 Step 1: Data Extraction**
+- **File**: `src/extractors/volunteer_history_extractor.py`
+- **Output**: `data/raw/VolunteerHistory_YYYYMMDD_HHMMSS.xlsx`
+- **Purpose**: Downloads volunteer data from VolunteerMatters API (Jan 1, 2025 to current date)
+
+### **🧹 Step 2: Data Preparation**
+- **File**: `src/processors/data_preparation.py`
+- **Output**: `data/processed/Raw_Data_YYYYMMDD_HHMMSS.xlsx`
+- **Purpose**: Removes 0-hour entries, saves clean "Raw Data" for all subsequent analysis
+
+### **📊 Step 3: Page 1 - Project Category Statistics**
+- **File**: `src/processors/project_statistics.py`
+- **Output**: `data/processed/Y_Volunteer_2025_Statistics_YYYYMMDD_HHMMSS.xlsx`
+- **Purpose**: 
+  - Hours by PROJECT TAG (no deduplication)
+  - Volunteers by PROJECT CATALOG (deduplicated by ASSIGNEE, PROJECT CATALOG, BRANCH)
+  - Projects by PROJECT TAG vs PROJECT (with manual adjustments for Competitive Swim/Gymnastics)
+
+### **📊 Pages 2-5: Branch/Site Breakdown**
+- **File**: `src/processors/branch_breakdown.py`
+- **Output**: `data/processed/Y_Volunteer_2025_Branch_Breakdown_YYYYMMDD_HHMMSS.xlsx`
+- **Purpose**:
+  - Branch Hours (no deduplication)
+  - Active Volunteers (deduplicated by ASSIGNEE, BRANCH)
+  - Member Volunteers (filtered by "Yes" for YMCA membership)
+
+### **📊 Page 6: Youth Development & Education**
+- **File**: `src/processors/yde_breakdown.py`
+- **Output**: `data/processed/Y_Volunteer_2025_YDE_Breakdown_YYYYMMDD_HHMMSS.xlsx`
+- **Purpose**:
+  - YDE - Community Services (includes Music Resource Center)
+  - YDE - Early Learning Centers
+  - YDE - Out of School Time
+  - Hours, Volunteers, and Project numbers for each category
+
+### **📊 Page 7: YMCA & Senior Centers**
+- **File**: `src/processors/senior_centers_breakdown.py`
+- **Output**: `data/processed/Y_Volunteer_2025_Senior_Centers_YYYYMMDD_HHMMSS.xlsx`
+- **Purpose**:
+  - Clippard YMCA + Clippard Senior Center
+  - R.C. Durr YMCA + Kentucky Senior Center
+  - Combined data for ease of reading
+
+### **📋 Consolidated Summary Report**
+- **File**: `data/processed/YMCA_Volunteer_Summary_Report.txt`
+- **Purpose**: Single comprehensive report containing summaries from all processing steps
 
 ## Directory Structure
 
@@ -10,9 +59,10 @@ This repository contains a comprehensive data processing pipeline for YMCA volun
 │   │   └── volunteer_history_extractor.py
 │   ├── processors/           # Data cleaning and statistical analysis
 │   │   ├── data_preparation.py
-│   │   └── project_statistics.py
-│   ├── tests/               # Validation and testing scripts
-│   │   └── test_validation.py
+│   │   ├── project_statistics.py
+│   │   ├── branch_breakdown.py
+│   │   ├── yde_breakdown.py
+│   │   └── senior_centers_breakdown.py
 │   └── utils/               # Shared utilities and configurations
 │       ├── logging_config.py
 │       └── file_utils.py
@@ -20,33 +70,30 @@ This repository contains a comprehensive data processing pipeline for YMCA volun
 │   ├── raw/                 # Raw extracted data files
 │   └── processed/           # Cleaned and analyzed data
 ├── docs/                    # Documentation files
-├── logs/                    # Application logs
 ├── main.py                  # Main entry point
 └── requirements.txt         # Python dependencies
 ```
 
-## Processing Pipeline
+## 🚀 **Execution Order:**
 
-The system follows a three-step process:
+1. **Run Data Extraction**: `python src/extractors/volunteer_history_extractor.py`
+2. **Run Data Preparation**: `python src/processors/data_preparation.py`
+3. **Run Project Statistics**: `python src/processors/project_statistics.py`
+4. **Run Branch Breakdown**: `python src/processors/branch_breakdown.py`
+5. **Run YDE Breakdown**: `python src/processors/yde_breakdown.py`
+6. **Run Senior Centers**: `python src/processors/senior_centers_breakdown.py`
 
-### 1. Data Extraction
-**Script:** `src/extractors/volunteer_history_extractor.py`
-- Extracts volunteer data from VolunteerMatters API
-- Handles pagination and error recovery
-- Saves raw data to `data/raw/`
+## 📊 **PowerPoint Integration:**
+All Excel files are formatted for direct import into your **Y Monthly Statistics Report 8.31.2025** presentation, with each page having its own dedicated Excel file containing the specific pivot tables and summaries you need.
 
-### 2. Data Preparation  
-**Script:** `src/processors/data_preparation.py`
-- Cleans raw data (removes 0-hour entries)
-- Provides deduplication options
-- Generates summary reports
-- Saves processed data to `data/processed/`
-
-### 3. Statistical Analysis
-**Script:** `src/processors/project_statistics.py` 
-- Creates pivot tables for hours, volunteers, and projects
-- Applies manual adjustments for special programs
-- Generates Excel reports for PowerPoint integration
+The system automatically handles:
+- ✅ Date filtering (Jan 1, 2025 to current)
+- ✅ 0-hour entry removal
+- ✅ Proper deduplication strategies
+- ✅ Manual adjustments for Competitive Swim/Gymnastics
+- ✅ Music Resource Center inclusion in YDE - Community Services
+- ✅ Senior Center combinations
+- ✅ Monthly data validation preparation
 
 ## Quick Start
 
