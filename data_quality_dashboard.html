@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Quality Dashboard - YMCA Volunteer Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .metric-card h3 {
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .metric-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-good { background-color: #4CAF50; }
+        .status-warning { background-color: #FF9800; }
+        .status-error { background-color: #F44336; }
+
+        .charts-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .chart-title {
+            color: #667eea;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .data-table {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow-x: auto;
+        }
+
+        .data-table h3 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #667eea;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-high { background-color: #4CAF50; }
+        .progress-medium { background-color: #FF9800; }
+        .progress-low { background-color: #F44336; }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .timestamp {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Data Quality Dashboard</h1>
+            <p>YMCA Volunteer Statistics - Real-time Data Quality Monitoring</p>
+        </div>
+
+        <div class="metrics-grid" id="metricsGrid">
+            <!-- Metrics will be populated by JavaScript -->
+        </div>
+
+        <div class="charts-section">
+            <div class="chart-container">
+                <div class="chart-title">Data Completeness by Dataset</div>
+                <canvas id="completenessChart" width="400" height="200"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Record Count Trends</div>
+                <canvas id="trendsChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <div class="data-table">
+            <h3>Dataset Quality Summary</h3>
+            <table id="qualityTable">
+                <thead>
+                    <tr>
+                        <th>Dataset</th>
+                        <th>Total Records</th>
+                        <th>Complete Records</th>
+                        <th>Missing Data %</th>
+                        <th>Last Updated</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="qualityTableBody">
+                    <!-- Table data will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="timestamp" id="lastUpdated">
+            <!-- Timestamp will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="refreshData()">🔄 Refresh</button>
+
+    <script>
+        // Sample data structure representing YMCA volunteer data quality metrics
+        const dataQualityMetrics = {
+            datasets: [
+                {
+                    name: "Volunteer History Raw",
+                    totalRecords: 15243,
+                    completeRecords: 14897,
+                    missingDataPercentage: 2.27,
+                    lastUpdated: "2025-09-06 13:27:11",
+                    status: "good",
+                    dateRange: { start: "2025-01-01", end: "2025-08-31" }
+                },
+                {
+                    name: "Project Statistics",
+                    totalRecords: 8756,
+                    completeRecords: 8654,
+                    missingDataPercentage: 1.16,
+                    lastUpdated: "2025-09-06 13:27:17",
+                    status: "good",
+                    dateRange: { start: "2025-01-01", end: "2025-08-31" }
+                },
+                {
+                    name: "Branch Breakdown",
+                    totalRecords: 12450,
+                    completeRecords: 12102,
+                    missingDataPercentage: 2.79,
+                    lastUpdated: "2025-09-06 13:31:20",
+                    status: "warning",
+                    dateRange: { start: "2025-01-01", end: "2025-08-31" }
+                },
+                {
+                    name: "YDE Breakdown",
+                    totalRecords: 3521,
+                    completeRecords: 3498,
+                    missingDataPercentage: 0.65,
+                    lastUpdated: "2025-09-06 13:46:48",
+                    status: "good",
+                    dateRange: { start: "2025-01-01", end: "2025-08-31" }
+                },
+                {
+                    name: "Senior Centers",
+                    totalRecords: 2134,
+                    completeRecords: 2089,
+                    missingDataPercentage: 2.11,
+                    lastUpdated: "2025-09-06 13:46:55",
+                    status: "good",
+                    dateRange: { start: "2025-01-01", end: "2025-08-31" }
+                }
+            ]
+        };
+
+        function calculateOverallMetrics() {
+            const totalRecords = dataQualityMetrics.datasets.reduce((sum, dataset) => sum + dataset.totalRecords, 0);
+            const totalComplete = dataQualityMetrics.datasets.reduce((sum, dataset) => sum + dataset.completeRecords, 0);
+            const overallCompleteness = ((totalComplete / totalRecords) * 100).toFixed(2);
+            const datasetsWithIssues = dataQualityMetrics.datasets.filter(d => d.status !== 'good').length;
+            
+            return {
+                totalRecords,
+                totalComplete,
+                overallCompleteness,
+                datasetsWithIssues,
+                totalDatasets: dataQualityMetrics.datasets.length
+            };
+        }
+
+        function getStatusColor(status) {
+            switch(status) {
+                case 'good': return 'status-good';
+                case 'warning': return 'status-warning';
+                case 'error': return 'status-error';
+                default: return 'status-warning';
+            }
+        }
+
+        function renderMetrics() {
+            const metrics = calculateOverallMetrics();
+            const metricsGrid = document.getElementById('metricsGrid');
+            
+            const dateRange = dataQualityMetrics.datasets[0].dateRange;
+            const daysDiff = Math.ceil((new Date(dateRange.end) - new Date(dateRange.start)) / (1000 * 60 * 60 * 24));
+            
+            metricsGrid.innerHTML = `
+                <div class="metric-card">
+                    <h3>Total Records</h3>
+                    <div class="metric-value">${metrics.totalRecords.toLocaleString()}</div>
+                    <div class="metric-description">
+                        <span class="status-indicator status-good"></span>
+                        Across all datasets (Jan 1 - Aug 31, 2025)
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h3>Data Completeness</h3>
+                    <div class="metric-value">${metrics.overallCompleteness}%</div>
+                    <div class="metric-description">
+                        <span class="status-indicator ${metrics.overallCompleteness >= 95 ? 'status-good' : 'status-warning'}"></span>
+                        ${metrics.totalComplete.toLocaleString()} of ${metrics.totalRecords.toLocaleString()} records complete
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h3>Date Range Coverage</h3>
+                    <div class="metric-value">${daysDiff}</div>
+                    <div class="metric-description">
+                        <span class="status-indicator status-good"></span>
+                        Days of data (${dateRange.start} to ${dateRange.end})
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h3>Dataset Health</h3>
+                    <div class="metric-value">${metrics.totalDatasets - metrics.datasetsWithIssues}/${metrics.totalDatasets}</div>
+                    <div class="metric-description">
+                        <span class="status-indicator ${metrics.datasetsWithIssues === 0 ? 'status-good' : 'status-warning'}"></span>
+                        Datasets with good data quality
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h3>Missing Data Rate</h3>
+                    <div class="metric-value">${(100 - metrics.overallCompleteness).toFixed(2)}%</div>
+                    <div class="metric-description">
+                        <span class="status-indicator ${100 - metrics.overallCompleteness < 5 ? 'status-good' : 'status-warning'}"></span>
+                        Average missing data across all datasets
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <h3>Last Refresh</h3>
+                    <div class="metric-value">6 hrs</div>
+                    <div class="metric-description">
+                        <span class="status-indicator status-good"></span>
+                        Ago - Next refresh scheduled in 18 hours
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTable() {
+            const tableBody = document.getElementById('qualityTableBody');
+            tableBody.innerHTML = dataQualityMetrics.datasets.map(dataset => `
+                <tr>
+                    <td><strong>${dataset.name}</strong></td>
+                    <td>${dataset.totalRecords.toLocaleString()}</td>
+                    <td>${dataset.completeRecords.toLocaleString()}</td>
+                    <td>
+                        ${dataset.missingDataPercentage.toFixed(2)}%
+                        <div class="progress-bar">
+                            <div class="progress-fill ${dataset.missingDataPercentage < 2 ? 'progress-high' : dataset.missingDataPercentage < 5 ? 'progress-medium' : 'progress-low'}" 
+                                 style="width: ${100 - dataset.missingDataPercentage}%"></div>
+                        </div>
+                    </td>
+                    <td>${dataset.lastUpdated}</td>
+                    <td>
+                        <span class="status-indicator ${getStatusColor(dataset.status)}"></span>
+                        ${dataset.status.charAt(0).toUpperCase() + dataset.status.slice(1)}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderCharts() {
+            // Data Completeness Chart
+            const ctx1 = document.getElementById('completenessChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: dataQualityMetrics.datasets.map(d => d.name),
+                    datasets: [{
+                        data: dataQualityMetrics.datasets.map(d => 100 - d.missingDataPercentage),
+                        backgroundColor: [
+                            '#4CAF50',
+                            '#2196F3',
+                            '#FF9800',
+                            '#9C27B0',
+                            '#00BCD4'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Record Count Trends Chart
+            const ctx2 = document.getElementById('trendsChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: dataQualityMetrics.datasets.map(d => d.name.replace(' ', '\n')),
+                    datasets: [{
+                        label: 'Total Records',
+                        data: dataQualityMetrics.datasets.map(d => d.totalRecords),
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2
+                    }, {
+                        label: 'Complete Records',
+                        data: dataQualityMetrics.datasets.map(d => d.completeRecords),
+                        backgroundColor: 'rgba(76, 175, 80, 0.8)',
+                        borderColor: 'rgba(76, 175, 80, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateTimestamp() {
+            const now = new Date();
+            document.getElementById('lastUpdated').innerHTML = 
+                `Last updated: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+        }
+
+        function refreshData() {
+            // Simulate data refresh with slight variations
+            dataQualityMetrics.datasets.forEach(dataset => {
+                const variation = Math.random() * 0.1 - 0.05; // ±5% variation
+                dataset.missingDataPercentage = Math.max(0, dataset.missingDataPercentage + variation);
+                dataset.completeRecords = Math.floor(dataset.totalRecords * (1 - dataset.missingDataPercentage / 100));
+            });
+            
+            // Re-render everything
+            renderMetrics();
+            renderTable();
+            updateTimestamp();
+            
+            // Show feedback
+            const btn = document.querySelector('.refresh-btn');
+            btn.innerHTML = '✓ Updated';
+            setTimeout(() => {
+                btn.innerHTML = '🔄 Refresh';
+            }, 2000);
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMetrics();
+            renderTable();
+            renderCharts();
+            updateTimestamp();
+            
+            // Auto-refresh every 5 minutes
+            setInterval(refreshData, 300000);
+        });
+    </script>
+</body>
+</html>
