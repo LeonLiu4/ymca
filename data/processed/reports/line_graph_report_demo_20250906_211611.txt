@@ -1,0 +1,80 @@
+🏊‍♂️ YMCA Volunteer Line Graph Report Generator - DEMO
+============================================================
+Generated: 2025-09-06 21:16:11
+
+📊 WHAT THIS SCRIPT GENERATES
+----------------------------------------
+The full line_graph_report_generator.py script creates:
+
+1. DAILY HOURS TREND LINE GRAPH
+   • Shows daily volunteer hours over time
+   • Includes peak days and average statistics
+   • File: daily_hours_trend_YYYYMMDD_HHMMSS.png
+
+2. WEEKLY PARTICIPATION LINE GRAPH
+   • Shows weekly volunteer participation patterns
+   • Tracks engagement trends over time
+   • File: weekly_participation_YYYYMMDD_HHMMSS.png
+
+3. TOP PROJECTS TREND LINE GRAPH
+   • Multi-line graph showing top 5 projects by hours
+   • Compares project performance over time
+   • File: top_projects_trend_YYYYMMDD_HHMMSS.png
+
+4. CUMULATIVE HOURS REPORT
+   • Shows total volunteer hours accumulation
+   • Includes milestone markers
+   • File: cumulative_hours_YYYYMMDD_HHMMSS.png
+
+5. COMPREHENSIVE ANALYSIS REPORT
+   • Text report with all statistics and graph references
+   • Ready for PowerPoint integration
+   • File: line_graph_analysis_report_YYYYMMDD_HHMMSS.txt
+
+📋 REQUIREMENTS TO RUN FULL SCRIPT
+----------------------------------------
+Install required packages with:
+pip install -r requirements.txt
+
+Required packages:
+• pandas>=1.5.0 (data processing)
+• matplotlib>=3.5.0 (graph generation)
+• seaborn>=0.11.0 (enhanced styling)
+• openpyxl>=3.0.0 (Excel file reading)
+
+🎯 USAGE
+----------------------------------------
+Run the script with:
+python -m src.processors.line_graph_report_generator
+
+Or from the main pipeline:
+python main.py
+# Select option 4: Generate line graph reports
+
+📁 OUTPUT LOCATION
+----------------------------------------
+All generated files will be saved to:
+data/processed/reports/
+
+Graph files are saved as PNG format (300 DPI) for presentations.
+Report files are saved as TXT format for easy reading.
+
+🚀 FEATURES
+----------------------------------------
+• Automatic data loading from processed Excel files
+• Professional graph styling with seaborn
+• Multiple visualization types for different insights
+• PowerPoint-ready output format
+• Comprehensive statistical analysis
+• Error handling and logging
+• Timestamp-based file naming for version control
+
+📈 INTEGRATION WITH EXISTING PIPELINE
+----------------------------------------
+This script integrates seamlessly with the YMCA pipeline:
+1. Uses data from volunteer_history_extractor.py
+2. Works with processed data from data_preparation.py
+3. Complements statistics from project_statistics.py
+4. Adds visual analysis to existing Excel reports
+
+For questions or support, check the main documentation.
