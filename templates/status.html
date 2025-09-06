@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Status - YMCA Data Processing{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>📊 Job Status Monitor</h2>
+    
+    {% if jobs %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Job ID</th>
+                    <th>Processing Type</th>
+                    <th>Status</th>
+                    <th>Progress</th>
+                    <th>Message</th>
+                    <th>Started</th>
+                    <th>Completed</th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job_id, job in jobs.items() %}
+                <tr data-job-status="{{ job.status }}" data-job-id="{{ job_id }}">
+                    <td><strong>{{ job_id }}</strong></td>
+                    <td>{{ job.type.replace('_', ' ').title() }}</td>
+                    <td>
+                        <span id="status-{{ job_id }}" class="status-badge status-{{ job.status }}">
+                            {{ job.status.upper() }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="progress-bar">
+                            <div id="progress-{{ job_id }}" class="progress-fill" style="width: {{ job.progress }}%;"></div>
+                        </div>
+                        <small>{{ job.progress }}%</small>
+                    </td>
+                    <td id="message-{{ job_id }}">{{ job.message }}</td>
+                    <td>{{ job.started_at[:19] if job.started_at else 'N/A' }}</td>
+                    <td>{{ job.completed_at[:19] if job.get('completed_at') else 'N/A' }}</td>
+                    <td>
+                        {% if job.get('completed_at') and job.started_at %}
+                            {% set start_time = job.started_at | replace('T', ' ') %}
+                            {% set end_time = job.completed_at | replace('T', ' ') %}
+                            <small>Completed</small>
+                        {% elif job.status == 'running' %}
+                            <small>Running...</small>
+                        {% else %}
+                            <small>-</small>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div style="margin-top: 2rem;">
+            <h3>Job Statistics</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; text-align: center;">
+                    <h4>{{ jobs.values() | selectattr('status', 'equalto', 'completed') | list | length }}</h4>
+                    <p>Completed</p>
+                </div>
+                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; text-align: center;">
+                    <h4>{{ jobs.values() | selectattr('status', 'equalto', 'running') | list | length }}</h4>
+                    <p>Running</p>
+                </div>
+                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; text-align: center;">
+                    <h4>{{ jobs.values() | selectattr('status', 'equalto', 'queued') | list | length }}</h4>
+                    <p>Queued</p>
+                </div>
+                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; text-align: center;">
+                    <h4>{{ jobs.values() | selectattr('status', 'equalto', 'failed') | list | length }}</h4>
+                    <p>Failed</p>
+                </div>
+            </div>
+        </div>
+        
+    {% else %}
+        <div style="text-align: center; padding: 3rem;">
+            <h3>No jobs found</h3>
+            <p>Start data processing from the dashboard to see job status here.</p>
+            <a href="{{ url_for('dashboard') }}" class="btn">Go to Dashboard</a>
+        </div>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2>🔄 Auto Refresh</h2>
+    <p>This page automatically refreshes job status every 5 seconds for running jobs.</p>
+    <button onclick="location.reload()" class="btn btn-secondary">Refresh Now</button>
+</div>
+
+<script>
+    function autoRefreshStatus() {
+        const runningJobs = document.querySelectorAll('[data-job-status="running"]');
+        if (runningJobs.length > 0) {
+            setTimeout(() => {
+                location.reload();
+            }, 5000);
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', autoRefreshStatus);
+</script>
+{% endblock %}
