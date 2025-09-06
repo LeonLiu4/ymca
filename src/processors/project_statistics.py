@@ -2,22 +2,19 @@ import pandas as pd
 import datetime as dt
 import os
 from pathlib import Path
-import logging
+import sys
 
-# Set up logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+# Add src to path for imports
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+
+from src.utils.logging_config import setup_logger
+from src.utils.file_utils import load_excel_data, find_latest_file
+
+logger = setup_logger(__name__, 'project_statistics.log')
 
 def load_raw_data(file_path):
     """Load raw volunteer data from Excel file"""
-    try:
-        df = pd.read_excel(file_path)
-        logger.info(f"✅ Loaded {len(df)} rows from {file_path}")
-        logger.info(f"Columns: {list(df.columns)}")
-        return df
-    except Exception as e:
-        logger.error(f"❌ Error loading file: {e}")
-        return None
+    return load_excel_data(file_path)
 
 def analyze_data_structure(df):
     """Analyze the data structure to understand available columns"""
@@ -148,12 +145,12 @@ def apply_manual_adjustments(projects_pivot):
     
     return adjusted_pivot, adjustments
 
-def create_excel_report(hours_pivot, volunteers_pivot, projects_pivot, adjustments, output_dir="processed_data"):
+def create_excel_report(hours_pivot, volunteers_pivot, projects_pivot, adjustments, output_dir="data/processed"):
     """Create Excel report for PowerPoint integration"""
     logger.info("\n📊 Creating Excel Report for PowerPoint...")
     
     # Create output directory
-    Path(output_dir).mkdir(exist_ok=True)
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
     
     # Generate filename
     timestamp = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -208,13 +205,10 @@ def main():
     logger.info("=" * 70)
     
     # Find the most recent raw data file
-    raw_data_files = list(Path("processed_data").glob("Raw_Data_*.xlsx"))
-    if not raw_data_files:
-        logger.error("❌ No Raw_Data_*.xlsx files found in processed_data directory")
+    latest_file = find_latest_file("Raw_Data_*.xlsx", "data/processed")
+    if not latest_file:
+        logger.error("❌ No Raw_Data_*.xlsx files found in data/processed directory")
         return
-    
-    # Use the most recent file
-    latest_file = max(raw_data_files, key=os.path.getctime)
     logger.info(f"📁 Using file: {latest_file}")
     
     # Load data
