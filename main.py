@@ -31,7 +31,7 @@ def main():
     print("1. Extract volunteer data (src/extractors/volunteer_history_extractor.py)")
     print("2. Prepare data (src/processors/data_preparation.py)")
     print("3. Generate statistics (src/processors/project_statistics.py)")
-    print("4. Create scatter plots from XLSX files (create_scatter_plots.py)")
+    print("4. Create plots from XLSX files")
     print("5. Review generated Excel files in data/processed/")
     
     print("\nDirectory structure:")
