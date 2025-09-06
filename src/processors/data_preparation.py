@@ -115,9 +115,9 @@ def deduplicate_data(df, method="activity"):
     
     return df_dedup
 
-def create_summary_report(df, output_dir="data/processed"):
-    """Create summary report for monthly review"""
-    logger.info("\n📝 Creating Summary Report...")
+def create_summary_report(df, output_dir="data/processed", step="Step 2: Data Preparation"):
+    """Create or append to comprehensive summary report"""
+    logger.info(f"\n📝 Adding {step} to Summary Report...")
     
     # Generate summary statistics
     summary = {
@@ -143,32 +143,64 @@ def create_summary_report(df, output_dir="data/processed"):
         summary['Unique Activities'] = df['assignment'].nunique()
         summary['Most Common Activity'] = df['assignment'].value_counts().index[0] if len(df) > 0 else "N/A"
     
-    # Save summary
-    timestamp = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
-    summary_file = os.path.join(output_dir, f"Summary_Report_{timestamp}.txt")
+    # Use consistent summary file name
+    summary_file = os.path.join(output_dir, "YMCA_Volunteer_Summary_Report.txt")
     
-    with open(summary_file, 'w') as f:
-        f.write("YMCA Volunteer Data Summary Report\n")
-        f.write("=" * 50 + "\n")
-        f.write(f"Generated: {dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+    # Check if file exists to determine if we're appending
+    file_exists = os.path.exists(summary_file)
+    
+    with open(summary_file, 'a' if file_exists else 'w') as f:
+        if not file_exists:
+            f.write("🏊‍♂️ YMCA Volunteer Data Processing - Complete Summary Report\n")
+            f.write("=" * 70 + "\n")
+            f.write(f"Generated: {dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        
+        f.write(f"\n{step}\n")
+        f.write("-" * 50 + "\n")
+        f.write(f"Completed: {dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
         
         for key, value in summary.items():
             f.write(f"{key}: {value}\n")
         
-        f.write("\n📋 Notes for Monthly Review:\n")
-        f.write("• Check for reporting errors before pulling data\n")
-        f.write("• Verify branch credit calculations\n")
-        f.write("• Review manual adjustments for special programs (swim, etc.)\n")
-        f.write("• Each data set requires its own deduplication logic\n")
-        f.write("• Numbers vary depending on counting method (activity, person, location)\n")
+        if step == "Step 2: Data Preparation":
+            f.write("\n📋 Data Cleaning Notes:\n")
+            f.write("• Removed volunteers with 0 hours (registered but didn't complete activity)\n")
+            f.write("• Data ready for multiple deduplication/pivot steps\n")
+            f.write("• Each data set requires its own deduplication logic\n")
+            f.write("• Numbers vary depending on counting method (activity, person, location)\n")
     
-    logger.info(f"✅ Summary report saved: {summary_file}")
+    logger.info(f"✅ Summary report updated: {summary_file}")
     return summary_file
+
+def clean_output_directory(output_dir="data/processed"):
+    """Clean output directory of previous run files"""
+    logger.info(f"🧹 Cleaning output directory: {output_dir}")
+    
+    # Clean up previous processed files
+    import glob
+    patterns_to_clean = [
+        "Raw_Data_*.xlsx",
+        "Summary_Report_*.txt", 
+        "Y_Volunteer_2025_Statistics_*.xlsx",
+        "YMCA_Volunteer_Summary_Report.txt"  # Clean the comprehensive summary report
+    ]
+    
+    for pattern in patterns_to_clean:
+        files_to_remove = glob.glob(os.path.join(output_dir, pattern))
+        for file_path in files_to_remove:
+            try:
+                os.remove(file_path)
+                logger.info(f"  • Removed: {os.path.basename(file_path)}")
+            except Exception as e:
+                logger.warning(f"  • Could not remove {file_path}: {e}")
 
 def main():
     """Main processing function"""
     logger.info("🏊‍♂️ YMCA Volunteer Data Preparation - Step 2")
     logger.info("=" * 60)
+    
+    # Clean output directory first
+    clean_output_directory()
     
     # Find the most recent volunteer history file
     latest_file = find_latest_file("VolunteerHistory_*.xlsx", "data/raw")

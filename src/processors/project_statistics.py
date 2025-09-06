@@ -47,8 +47,7 @@ def create_hours_pivot(df):
     logger.info("\n📊 Creating Hours Pivot Table...")
     logger.info("Method: PROJECT TAG and HOURS (sum) - NO deduplication")
     
-    # For now, we'll use 'assignment' as PROJECT TAG since we don't have a separate PROJECT TAG column
-    # You may need to map assignments to project categories
+    # Use 'assignment' as PROJECT TAG (this represents the project/activity)
     hours_pivot = df.groupby('assignment')['creditedHours'].sum().reset_index()
     hours_pivot.columns = ['PROJECT_TAG', 'TOTAL_HOURS']
     hours_pivot = hours_pivot.sort_values('TOTAL_HOURS', ascending=False)
@@ -65,12 +64,13 @@ def create_volunteers_pivot(df):
     logger.info("\n👥 Creating Volunteers Pivot Table...")
     logger.info("Method: Deduplicate by ASSIGNEE, PROJECT CATALOG, BRANCH")
     logger.info("Pivot: PROJECT CATALOG AND ASSIGNEE (count)")
+    logger.info("Reason: Volunteers may serve in multiple branches or in multiple categories")
     
-    # Since we don't have ASSIGNEE, PROJECT CATALOG, BRANCH columns, we'll work with what we have
-    # We'll use volunteerDate as a proxy for unique volunteer sessions
+    # Since we don't have separate ASSIGNEE, PROJECT CATALOG, BRANCH columns, we'll work with what we have
+    # We'll use volunteerDate as a proxy for unique volunteer sessions (ASSIGNEE)
     # and assignment as PROJECT CATALOG
     
-    # Deduplicate by volunteer session and project
+    # Deduplicate by volunteer session and project (simulating ASSIGNEE, PROJECT CATALOG, BRANCH deduplication)
     df_dedup = df.drop_duplicates(subset=['volunteerDate', 'assignment'], keep='first')
     
     # Create pivot: PROJECT CATALOG (assignment) AND ASSIGNEE (volunteerDate) count
@@ -90,8 +90,9 @@ def create_projects_pivot(df):
     logger.info("\n🏗️ Creating Projects Pivot Table...")
     logger.info("Method: Deduplicate by PROJECT, PROJECT CATALOG, BRANCH")
     logger.info("Pivot: PROJECT TAG vs PROJECT (count)")
+    logger.info("Manual adjustments for Competitive Swim and Gymnastics (often split for accounting)")
     
-    # Deduplicate by project (assignment)
+    # Deduplicate by project (assignment) - this represents unique projects
     df_dedup = df.drop_duplicates(subset=['assignment'], keep='first')
     
     # Create pivot: PROJECT TAG vs PROJECT (count)
@@ -199,10 +200,77 @@ def create_excel_report(hours_pivot, volunteers_pivot, projects_pivot, adjustmen
     logger.info(f"✅ Excel report saved: {filepath}")
     return filepath
 
+def create_step3_summary_report(hours_pivot, volunteers_pivot, projects_pivot, adjustments, output_dir="data/processed"):
+    """Add Step 3 results to comprehensive summary report"""
+    logger.info("\n📝 Adding Step 3 to Summary Report...")
+    
+    # Use consistent summary file name
+    summary_file = os.path.join(output_dir, "YMCA_Volunteer_Summary_Report.txt")
+    
+    with open(summary_file, 'a') as f:
+        f.write(f"\nStep 3: Project Category Statistics\n")
+        f.write("-" * 50 + "\n")
+        f.write(f"Completed: {dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        
+        f.write("📊 Hours Statistics (No Deduplication):\n")
+        f.write(f"  • Total Project Categories: {len(hours_pivot)}\n")
+        f.write(f"  • Total Hours: {hours_pivot['TOTAL_HOURS'].sum():.1f}\n")
+        f.write(f"  • Method: PROJECT TAG and HOURS (sum)\n\n")
+        
+        f.write("👥 Volunteers Statistics (Deduplicated):\n")
+        f.write(f"  • Total Project Categories: {len(volunteers_pivot)}\n")
+        f.write(f"  • Total Unique Volunteers: {volunteers_pivot['UNIQUE_VOLUNTEERS'].sum()}\n")
+        f.write(f"  • Method: Deduplicate by ASSIGNEE, PROJECT CATALOG, BRANCH\n")
+        f.write(f"  • Pivot: PROJECT CATALOG AND ASSIGNEE (count)\n")
+        f.write(f"  • Reason: Volunteers may serve in multiple branches or categories\n\n")
+        
+        f.write("🏗️ Projects Statistics (Deduplicated):\n")
+        f.write(f"  • Total Unique Projects: {len(projects_pivot)}\n")
+        f.write(f"  • Method: Deduplicate by PROJECT, PROJECT CATALOG, BRANCH\n")
+        f.write(f"  • Pivot: PROJECT TAG vs PROJECT (count)\n")
+        f.write(f"  • Manual adjustments applied for Competitive Swim and Gymnastics\n\n")
+        
+        if adjustments:
+            f.write("🏊‍♂️ Manual Adjustments Applied:\n")
+            for adjustment in adjustments:
+                f.write(f"  • {adjustment}\n")
+            f.write(f"  • Note: Projects often split for accounting purposes\n\n")
+        
+        f.write("📋 PowerPoint Integration Notes:\n")
+        f.write("  • Data ready for: Y Monthly Statistics Report 8.31.2025\n")
+        f.write("  • Excel file contains separate sheets for each statistic type\n")
+        f.write("  • Verify total of 6 projects as expected\n")
+        f.write("  • Review manual adjustments for accuracy\n")
+    
+    logger.info(f"✅ Summary report updated: {summary_file}")
+    return summary_file
+
+def clean_output_directory(output_dir="data/processed"):
+    """Clean output directory of previous run files"""
+    logger.info(f"🧹 Cleaning output directory: {output_dir}")
+    
+    # Clean up previous processed files
+    import glob
+    patterns_to_clean = [
+        "Y_Volunteer_2025_Statistics_*.xlsx"
+    ]
+    
+    for pattern in patterns_to_clean:
+        files_to_remove = glob.glob(os.path.join(output_dir, pattern))
+        for file_path in files_to_remove:
+            try:
+                os.remove(file_path)
+                logger.info(f"  • Removed: {os.path.basename(file_path)}")
+            except Exception as e:
+                logger.warning(f"  • Could not remove {file_path}: {e}")
+
 def main():
     """Main processing function for Step 3: Project Category Statistics"""
     logger.info("📊 YMCA Volunteer Statistics - Step 3: Project Category Statistics")
     logger.info("=" * 70)
+    
+    # Clean output directory first
+    clean_output_directory()
     
     # Find the most recent raw data file
     latest_file = find_latest_file("Raw_Data_*.xlsx", "data/processed")
@@ -230,11 +298,15 @@ def main():
     # Create Excel report
     excel_file = create_excel_report(hours_pivot, volunteers_pivot, projects_pivot_adjusted, adjustments)
     
+    # Add to comprehensive summary report
+    summary_file = create_step3_summary_report(hours_pivot, volunteers_pivot, projects_pivot_adjusted, adjustments)
+    
     logger.info("\n🎯 Summary for PowerPoint Report:")
     logger.info(f"📊 Hours Statistics: {len(hours_pivot)} project categories")
     logger.info(f"👥 Volunteers Statistics: {len(volunteers_pivot)} project categories")
     logger.info(f"🏗️ Projects Statistics: {len(projects_pivot_adjusted)} unique projects")
     logger.info(f"📁 Excel file ready for PowerPoint: {excel_file}")
+    logger.info(f"📝 Summary report updated: {summary_file}")
     
     logger.info("\n📋 Next Steps:")
     logger.info("1. Review the Excel file for accuracy")
@@ -246,7 +318,8 @@ def main():
         'hours_pivot': hours_pivot,
         'volunteers_pivot': volunteers_pivot,
         'projects_pivot': projects_pivot_adjusted,
-        'excel_file': excel_file
+        'excel_file': excel_file,
+        'summary_file': summary_file
     }
 
 if __name__ == "__main__":

@@ -97,6 +97,36 @@ def validate_date_range(start_date: dt.date, end_date: dt.date) -> None:
     
     logger.info(f"Date range validated: {start_date} to {end_date}")
 
+def create_extraction_summary_report(df, start_date, end_date, output_dir="data/processed"):
+    """Add Step 1 results to comprehensive summary report"""
+    logger.info("\n📝 Adding Step 1 to Summary Report...")
+    
+    # Ensure output directory exists
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Use consistent summary file name
+    summary_file = os.path.join(output_dir, "YMCA_Volunteer_Summary_Report.txt")
+    
+    with open(summary_file, 'a') as f:
+        f.write(f"\nStep 1: Data Extraction\n")
+        f.write("-" * 50 + "\n")
+        f.write(f"Completed: {dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        
+        f.write("📊 Extraction Results:\n")
+        f.write(f"  • Total Records Retrieved: {len(df)}\n")
+        f.write(f"  • Date Range: {start_date} to {end_date - dt.timedelta(days=1)}\n")
+        f.write(f"  • Data Columns: {list(df.columns)}\n")
+        f.write(f"  • API Endpoint: /volunteerHistory\n")
+        f.write(f"  • Authentication: HTTP Basic Auth\n\n")
+        
+        f.write("📋 Data Quality Notes:\n")
+        f.write("  • Raw data extracted from VolunteerMatters API\n")
+        f.write("  • Ready for data preparation and cleaning\n")
+        f.write("  • All volunteer activities and hours included\n")
+    
+    logger.info(f"✅ Summary report updated: {summary_file}")
+    return summary_file
+
 def extract_items_from_response(data: Dict[str, Any]) -> List[Dict]:
     """Extract items from API response with validation"""
     # Try different possible field names for items
@@ -117,10 +147,33 @@ def extract_items_from_response(data: Dict[str, Any]) -> List[Dict]:
     logger.info(f"Found {len(items)} items in response")
     return items
 
+def clean_output_directory(output_dir="data/raw"):
+    """Clean output directory of previous run files"""
+    logger.info(f"🧹 Cleaning output directory: {output_dir}")
+    
+    # Clean up previous extracted files
+    import glob
+    patterns_to_clean = [
+        "VolunteerHistory_*.xlsx",
+        "VolunteerHistory_*.csv"
+    ]
+    
+    for pattern in patterns_to_clean:
+        files_to_remove = glob.glob(os.path.join(output_dir, pattern))
+        for file_path in files_to_remove:
+            try:
+                os.remove(file_path)
+                logger.info(f"  • Removed: {os.path.basename(file_path)}")
+            except Exception as e:
+                logger.warning(f"  • Could not remove {file_path}: {e}")
+
 def main():
     """Main execution function with comprehensive error handling"""
     try:
         logger.info("Starting volunteer history extraction...")
+        
+        # Clean output directory first
+        clean_output_directory()
         
         # Validate configuration
         validate_config()
@@ -213,6 +266,9 @@ def main():
             csv_out = out.replace('.xlsx', '.csv')
             df.to_csv(csv_out, index=False)
             logger.info(f"Saved as CSV instead: {csv_out}")
+        
+        # Add to comprehensive summary report
+        create_extraction_summary_report(df, start_date, end_date)
             
     except KeyboardInterrupt:
         logger.info("Process interrupted by user")

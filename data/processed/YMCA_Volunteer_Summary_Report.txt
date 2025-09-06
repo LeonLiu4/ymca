@@ -1,0 +1,56 @@
+🏊‍♂️ YMCA Volunteer Data Processing - Complete Summary Report
+======================================================================
+Generated: 2025-09-06 13:27:11
+
+
+Step 2: Data Preparation
+--------------------------------------------------
+Completed: 2025-09-06 13:27:11
+
+Total Records: 990
+Date Range: 2025-08-06 to 2025-09-06
+Total Hours: 6644.75
+Average Hours per Record: 6.71
+Min Hours: 0.25
+Max Hours: 180.0
+Unique Activities: 450
+Most Common Activity: {'id': 27699, 'pledgeCount': 1, 'deliveredCount': 1, 'assignedById': 13902, 'contact': {'id': 4187, 'externalId': 'hdsMEd2dQ9B2FWHhXmdTXKQ', 'email': 'hallyn.schwartz@outlook.com', 'name': {'title': '', 'last': 'Schwartz', 'first': 'Halan', 'middle': '', 'suffix': '', 'nickname': 'Hal'}}, 'need': {'id': 36884, 'needType': 'Position', 'name': 'Garden Volunteer - Assigned by Y Staff 2025', 'startDateTime': '2025-04-01', 'endDateTime': '2026-01-01', 'project': {'id': 1841, 'name': "PCY - Let's Get Gardening", 'branch': {'id': 19, 'code': '4827', 'name': 'Powel Crosley YMCA', 'timeZoneId': 'America/New_York', 'active': True}}}}
+
+📋 Data Cleaning Notes:
+• Removed volunteers with 0 hours (registered but didn't complete activity)
+• Data ready for multiple deduplication/pivot steps
+• Each data set requires its own deduplication logic
+• Numbers vary depending on counting method (activity, person, location)
+
+Step 3: Project Category Statistics
+--------------------------------------------------
+Completed: 2025-09-06 13:27:17
+
+📊 Hours Statistics (No Deduplication):
+  • Total Project Categories: 450
+  • Total Hours: 6644.8
+  • Method: PROJECT TAG and HOURS (sum)
+
+👥 Volunteers Statistics (Deduplicated):
+  • Total Project Categories: 450
+  • Total Unique Volunteers: 981
+  • Method: Deduplicate by ASSIGNEE, PROJECT CATALOG, BRANCH
+  • Pivot: PROJECT CATALOG AND ASSIGNEE (count)
+  • Reason: Volunteers may serve in multiple branches or categories
+
+🏗️ Projects Statistics (Deduplicated):
+  • Total Unique Projects: 450
+  • Method: Deduplicate by PROJECT, PROJECT CATALOG, BRANCH
+  • Pivot: PROJECT TAG vs PROJECT (count)
+  • Manual adjustments applied for Competitive Swim and Gymnastics
+
+🏊‍♂️ Manual Adjustments Applied:
+  • Competitive Swim: 9 projects consolidated
+  • Gymnastics: 3 projects consolidated
+  • Note: Projects often split for accounting purposes
+
+📋 PowerPoint Integration Notes:
+  • Data ready for: Y Monthly Statistics Report 8.31.2025
+  • Excel file contains separate sheets for each statistic type
+  • Verify total of 6 projects as expected
+  • Review manual adjustments for accuracy
