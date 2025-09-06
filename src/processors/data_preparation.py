@@ -8,7 +8,7 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from src.utils.logging_config import setup_logger
-from src.utils.file_utils import load_excel_data, save_excel_data, find_latest_file
+from src.utils.file_utils import load_excel_data, save_excel_data, find_latest_file, backup_and_save_excel_data
 
 logger = setup_logger(__name__, 'data_preparation.log')
 
@@ -55,18 +55,14 @@ def clean_volunteer_data(df):
     
     return df_cleaned
 
-def save_raw_data(df, output_dir="data/processed"):
+def save_raw_data(df, output_dir="data/processed", create_backup=True):
     """Save cleaned data as 'Raw Data' file for multiple deduplication/pivot steps"""
-    # Create output directory
-    Path(output_dir).mkdir(parents=True, exist_ok=True)
-    
     # Generate filename with timestamp
     timestamp = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"Raw_Data_{timestamp}.xlsx"
-    filepath = os.path.join(output_dir, filename)
     
-    # Save to Excel
-    df.to_excel(filepath, index=False)
+    # Use backup-enabled save function
+    filepath = backup_and_save_excel_data(df, filename, output_dir, create_backup)
     logger.info(f"✅ Saved Raw Data: {filepath}")
     
     return filepath

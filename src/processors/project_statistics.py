@@ -8,7 +8,7 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from src.utils.logging_config import setup_logger
-from src.utils.file_utils import load_excel_data, find_latest_file
+from src.utils.file_utils import load_excel_data, find_latest_file, create_timestamped_backup
 
 logger = setup_logger(__name__, 'project_statistics.log')
 
@@ -146,7 +146,7 @@ def apply_manual_adjustments(projects_pivot):
     
     return adjusted_pivot, adjustments
 
-def create_excel_report(hours_pivot, volunteers_pivot, projects_pivot, adjustments, output_dir="data/processed"):
+def create_excel_report(hours_pivot, volunteers_pivot, projects_pivot, adjustments, output_dir="data/processed", create_backup=True):
     """Create Excel report for PowerPoint integration"""
     logger.info("\n📊 Creating Excel Report for PowerPoint...")
     
@@ -157,6 +157,10 @@ def create_excel_report(hours_pivot, volunteers_pivot, projects_pivot, adjustmen
     timestamp = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"Y_Volunteer_2025_Statistics_{timestamp}.xlsx"
     filepath = os.path.join(output_dir, filename)
+    
+    # Create backup of existing file if it exists
+    if create_backup and os.path.exists(filepath):
+        create_timestamped_backup(filepath)
     
     # Create Excel writer
     with pd.ExcelWriter(filepath, engine='openpyxl') as writer:
