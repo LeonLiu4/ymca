@@ -1,0 +1,5 @@
+#!/bin/bash
+# Quick Volunteer Metrics Summary - Shell Wrapper
+# Usage: ./quick-summary [options]
+
+python3 quick_metrics_summary.py "$@"

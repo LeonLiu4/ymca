@@ -33,6 +33,7 @@ def main():
     print("3. Generate statistics (src/processors/project_statistics.py)")
     print("4. Create plots from XLSX files")
     print("5. Review generated Excel files in data/processed/")
+    print("6. Quick metrics summary (python quick_metrics_summary.py)")
     
     print("\nDirectory structure:")
     print("├── src/")
