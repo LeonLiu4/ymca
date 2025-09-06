@@ -1,0 +1,66 @@
+{
+  "headers": [
+    "Column_1",
+    "Column_2",
+    "Column_3",
+    "Column_4"
+  ],
+  "row_count": 990,
+  "column_count": 4,
+  "pie_chart_opportunities": [
+    {
+      "name": "Column_4",
+      "index": 3,
+      "total_values": 990,
+      "unique_values": 2,
+      "is_numeric": false,
+      "is_categorical_numeric": true,
+      "sample_values": [
+        "0",
+        "1"
+      ],
+      "suitable_for_pie": true,
+      "value_distribution": {
+        "1": 766,
+        "0": 224
+      }
+    }
+  ],
+  "debug_info": [
+    "    Col 2 'Column_3': 990 values, 44 unique, numeric: True, cat_num: False",
+    "    Col 3 'Column_4': 990 values, 2 unique, numeric: False, cat_num: True"
+  ],
+  "column_2": {
+    "name": "Column_3",
+    "index": 2,
+    "total_values": 990,
+    "unique_values": 44,
+    "is_numeric": true,
+    "is_categorical_numeric": false,
+    "sample_values": [
+      "2.25",
+      "2",
+      "8",
+      "4",
+      "9"
+    ],
+    "suitable_for_pie": false
+  },
+  "column_3": {
+    "name": "Column_4",
+    "index": 3,
+    "total_values": 990,
+    "unique_values": 2,
+    "is_numeric": false,
+    "is_categorical_numeric": true,
+    "sample_values": [
+      "0",
+      "1"
+    ],
+    "suitable_for_pie": true,
+    "value_distribution": {
+      "1": 766,
+      "0": 224
+    }
+  }
+}
