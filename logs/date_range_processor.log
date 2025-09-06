@@ -1,0 +1,229 @@
+2025-09-06 21:32:55,455 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-03-31 (90 days, quarterly)
+2025-09-06 21:33:01,021 - ERROR - Could not parse date string: 'invalid date'. Supported formats: ['%Y-%m-%d', '%m/%d/%Y', '%m-%d-%Y', '%Y/%m/%d', '%d/%m/%Y', '%B %d, %Y', '%b %d, %Y', '%Y-%m', '%m/%Y']
+2025-09-06 21:33:01,022 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-01-31 (31 days, monthly)
+2025-09-06 21:33:01,022 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-03-31 (90 days, quarterly)
+2025-09-06 21:33:01,023 - ERROR - ❌ Date range validation failed: 2025-09-06 to 2025-08-07
+2025-09-06 21:33:01,023 - ERROR -   • Start date (2025-09-06) must be before end date (2025-08-07)
+2025-09-06 21:33:01,023 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:33:01,023 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,131 - ERROR - Could not parse date string: 'invalid date string'. Supported formats: ['%Y-%m-%d', '%m/%d/%Y', '%m-%d-%Y', '%Y/%m/%d', '%d/%m/%Y', '%B %d, %Y', '%b %d, %Y', '%Y-%m', '%m/%Y']
+2025-09-06 21:34:00,131 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-01-31 (31 days, monthly)
+2025-09-06 21:34:00,131 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-03-31 (90 days, quarterly)
+2025-09-06 21:34:00,132 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,132 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,132 - ERROR - ❌ Date range validation failed: 2025-09-06 to 2025-08-07
+2025-09-06 21:34:00,132 - ERROR -   • Start date (2025-09-06) must be before end date (2025-08-07)
+2025-09-06 21:34:00,133 - ERROR - ❌ Date range validation failed: 2025-01-01 to 2024-12-31
+2025-09-06 21:34:00,133 - ERROR -   • Start date (2025-01-01) must be before end date (2024-12-31)
+2025-09-06 21:34:00,133 - ERROR - ❌ Date range validation failed: 2030-01-01 to 2030-12-31
+2025-09-06 21:34:00,133 - ERROR -   • Start date (2030-01-01) cannot be in the future
+2025-09-06 21:34:00,133 - INFO - ✅ Date range validation passed: 2020-01-01 to 2025-12-31 (2192 days, multi-year)
+2025-09-06 21:34:00,133 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,133 - WARNING - ⚠️ Start date (2020-01-01) is more than 5 years ago - data may be limited
+2025-09-06 21:34:00,134 - ERROR - Could not parse date string: '2025-02-29'. Supported formats: ['%Y-%m-%d', '%m/%d/%Y', '%m-%d-%Y', '%Y/%m/%d', '%d/%m/%Y', '%B %d, %Y', '%b %d, %Y', '%Y-%m', '%m/%Y']
+2025-09-06 21:34:00,134 - ERROR - Invalid date string: 
+2025-09-06 21:34:00,134 - ERROR - Invalid date string: 
+2025-09-06 21:34:00,135 - ERROR - Could not parse date string: '2025-02-29'. Supported formats: ['%Y-%m-%d', '%m/%d/%Y', '%m-%d-%Y', '%Y/%m/%d', '%d/%m/%Y', '%B %d, %Y', '%b %d, %Y', '%Y-%m', '%m/%Y']
+2025-09-06 21:34:00,135 - ERROR - Could not parse date string: 'not-a-date'. Supported formats: ['%Y-%m-%d', '%m/%d/%Y', '%m-%d-%Y', '%Y/%m/%d', '%d/%m/%Y', '%B %d, %Y', '%b %d, %Y', '%Y-%m', '%m/%Y']
+2025-09-06 21:34:00,135 - ERROR - ❌ Date range validation failed: 2025-01-01 to 2025-01-01
+2025-09-06 21:34:00,135 - ERROR -   • Start date (2025-01-01) must be before end date (2025-01-01)
+2025-09-06 21:34:00,135 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,135 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,136 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,136 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,136 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,136 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,136 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,136 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,136 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,137 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,137 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,137 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,137 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,137 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,137 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,137 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,138 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,138 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,138 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,138 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,138 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,138 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,139 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,139 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,139 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,139 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,139 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,139 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,139 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,139 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,140 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,140 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,140 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,140 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,140 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,140 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,141 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,141 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,141 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,141 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,141 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,141 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,141 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,142 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,142 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,142 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,142 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,142 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,142 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,142 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,143 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,143 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,143 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,143 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,143 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,143 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,144 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,144 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,144 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,144 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,144 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,144 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,144 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,145 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,145 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,145 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,145 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,145 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,145 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,145 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,146 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,146 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,146 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,146 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,146 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,147 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,147 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,147 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,147 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,147 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,148 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,148 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,148 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,148 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,148 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,148 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,148 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,149 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,149 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,149 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,149 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,149 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,149 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,149 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,150 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,150 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,150 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,150 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,150 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,150 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,151 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,151 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,151 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,151 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,151 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,151 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,151 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,152 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,152 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,152 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,152 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,152 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,152 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,152 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,153 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,153 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,153 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,153 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,153 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,153 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,154 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,154 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,154 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,154 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,154 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,154 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,154 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,155 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,155 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,155 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,155 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,155 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,155 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,155 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,156 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,156 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,156 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,156 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,156 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,156 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,157 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,157 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,157 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,157 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,157 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,157 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,157 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,158 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,158 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,158 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,158 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,158 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,158 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,158 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,159 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,159 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,159 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,159 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,159 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,159 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,159 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,160 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,160 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,160 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,160 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,160 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,160 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,160 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,161 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,161 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,161 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,161 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,161 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,161 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,162 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,162 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,162 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,162 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,162 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,162 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,162 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,163 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,163 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,163 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,163 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,163 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,163 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,163 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,164 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,164 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,164 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,164 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,164 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,164 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,165 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,165 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,165 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,165 - WARNING - ⚠️ End date (2025-12-31) is in the future
+2025-09-06 21:34:00,165 - INFO - ✅ Date range validation passed: 2025-01-01 to 2025-12-31 (365 days, yearly)
+2025-09-06 21:34:00,165 - WARNING - ⚠️ End date (2025-12-31) is in the future
