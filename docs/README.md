@@ -84,6 +84,12 @@ This repository contains a comprehensive data processing pipeline for YMCA volun
 │   ├── visualizers/         # Visualizer modules
 │   ├── charts/              # Generated chart outputs
 │   └── final_charts/        # Final processed charts
+├── tools/                   # Additional tools and utilities
+│   ├── README.md            # Tools overview documentation
+│   ├── reporting/           # Advanced reporting tools
+│   ├── scheduling/          # Automated scheduling tools
+│   ├── comparison/          # Data comparison tools
+│   └── web_dashboard/       # Web-based dashboard
 ├── logs/                    # Application logs
 ├── main.py                  # Main entry point
 └── requirements.txt         # Python dependencies
@@ -121,6 +127,38 @@ The system includes comprehensive visualization tools located in the `visualizat
 - `docs/BAR_CHART_USAGE.md` - Bar chart usage instructions
 - `docs/LINE_GRAPH_README.md` - Line graph documentation
 - `docs/PIE_CHARTS_README.md` - Pie chart documentation
+
+## 🛠 **Additional Tools:**
+
+The system includes comprehensive additional tools located in the `tools/` directory:
+
+### **📊 Reporting Tools:**
+- **Custom Date Range Reports**: `python tools/reporting/generate_custom_date_range_reports.py`
+- **Quick Metrics Summary**: `python tools/reporting/quick_metrics_summary.py`
+- **Flexible Report Generator**: `python tools/reporting/flexible_report_generator.py`
+
+### **⏰ Scheduling Tools:**
+- **Schedule Manager**: `python tools/scheduling/schedule_manager.py`
+- **Pipeline Runner**: `python tools/scheduling/run_scheduled_pipeline.py`
+- **Automated Scheduling**: Cross-platform scheduling support
+
+### **📈 Comparison Tools:**
+- **Monthly Comparison**: `python tools/comparison/monthly_volunteer_comparison.py`
+- **Data Analysis**: Compare volunteer data across time periods
+- **Trend Analysis**: Identify patterns and growth trends
+
+### **🌐 Web Dashboard:**
+- **Web Interface**: `./tools/web_dashboard/run_web_dashboard.sh`
+- **Browser Access**: View data and reports in web browser
+- **Interactive Dashboard**: Real-time data visualization
+
+### **Documentation:**
+- `tools/README.md` - Complete tools overview
+- `docs/CSV_EXPORT_USAGE.md` - CSV export functionality
+- `docs/FLEXIBLE_DATE_RANGE_REPORT_GENERATOR.md` - Custom date range reports
+- `docs/QUICK_SUMMARY_CLI.md` - Quick metrics summary
+- `docs/SCHEDULER_README.md` - Scheduling and automation
+- `docs/WEB_DASHBOARD_README.md` - Web dashboard interface
 
 ## 📊 **PowerPoint Integration:**
 All Excel files are formatted for direct import into your **Y Monthly Statistics Report 8.31.2025** presentation, with each page having its own dedicated Excel file containing the specific pivot tables and summaries you need.
