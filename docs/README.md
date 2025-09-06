@@ -70,6 +70,21 @@ This repository contains a comprehensive data processing pipeline for YMCA volun
 │   ├── raw/                 # Raw extracted data files
 │   └── processed/           # Cleaned and analyzed data
 ├── docs/                    # Documentation files
+│   ├── README.md            # Main documentation
+│   ├── BAR_CHART_USAGE.md   # Bar chart usage guide
+│   ├── LINE_GRAPH_README.md # Line graph documentation
+│   ├── PIE_CHARTS_README.md # Pie chart documentation
+│   ├── data_quality_dashboard.html # Data quality dashboard
+│   └── frontend/            # Frontend guidelines
+├── visualization_tools/     # Data visualization tools
+│   ├── README.md            # Visualization tools documentation
+│   ├── generate_*.py        # Chart generation scripts
+│   ├── create_*.py          # Chart creation scripts
+│   ├── visualizations/      # Visualization modules
+│   ├── visualizers/         # Visualizer modules
+│   ├── charts/              # Generated chart outputs
+│   └── final_charts/        # Final processed charts
+├── logs/                    # Application logs
 ├── main.py                  # Main entry point
 └── requirements.txt         # Python dependencies
 ```
@@ -82,6 +97,30 @@ This repository contains a comprehensive data processing pipeline for YMCA volun
 4. **Run Branch Breakdown**: `python src/processors/branch_breakdown.py`
 5. **Run YDE Breakdown**: `python src/processors/yde_breakdown.py`
 6. **Run Senior Centers**: `python src/processors/senior_centers_breakdown.py`
+
+## 📊 **Data Visualization Tools:**
+
+The system includes comprehensive visualization tools located in the `visualization_tools/` directory:
+
+### **Available Chart Types:**
+- **Bar Charts**: `python visualization_tools/generate_bar_charts.py`
+- **Line Graphs**: `python visualization_tools/generate_line_graphs.py`
+- **Pie Charts**: `python visualization_tools/create_pie_charts.py`
+- **Scatter Plots**: `python visualization_tools/create_scatter_plots.py`
+- **Histograms**: `python visualization_tools/generate_histograms.py`
+
+### **Features:**
+- Automatic data detection from Excel files
+- Professional styling with seaborn
+- Multiple output formats (PNG, HTML, JSON)
+- Flexible time period aggregation
+- Trend line overlays
+
+### **Documentation:**
+- `visualization_tools/README.md` - Complete visualization tools guide
+- `docs/BAR_CHART_USAGE.md` - Bar chart usage instructions
+- `docs/LINE_GRAPH_README.md` - Line graph documentation
+- `docs/PIE_CHARTS_README.md` - Pie chart documentation
 
 ## 📊 **PowerPoint Integration:**
 All Excel files are formatted for direct import into your **Y Monthly Statistics Report 8.31.2025** presentation, with each page having its own dedicated Excel file containing the specific pivot tables and summaries you need.

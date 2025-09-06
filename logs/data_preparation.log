@@ -1,0 +1,156 @@
+2025-09-06 14:28:32,571 - INFO - 🏊‍♂️ YMCA Volunteer Data Preparation - Step 2
+2025-09-06 14:28:32,571 - INFO - ============================================================
+2025-09-06 14:28:32,571 - INFO - 🧹 Cleaning output directory: data/processed
+2025-09-06 14:28:32,571 - INFO -   • Removed: Raw_Data_20250906_132711.xlsx
+2025-09-06 14:28:32,572 - INFO -   • Removed: Y_Volunteer_2025_Statistics_20250906_132717.xlsx
+2025-09-06 14:28:32,572 - INFO -   • Removed: YMCA_Volunteer_Summary_Report.txt
+2025-09-06 14:28:32,572 - INFO - 📁 Using file: data/raw/VolunteerHistory_2025-01_to_2025-08.xlsx
+2025-09-06 14:28:32,697 - INFO - 
+🧹 Step 2: Preparing the Data...
+2025-09-06 14:28:32,697 - INFO - Initial rows: 1000
+2025-09-06 14:28:32,697 - INFO - Using Hours column: 'creditedHours'
+2025-09-06 14:28:32,697 - INFO - 
+Hours distribution:
+2025-09-06 14:28:32,700 - INFO -   0.0 hours: 10 records
+2025-09-06 14:28:32,700 - INFO -   0.25 hours: 12 records
+2025-09-06 14:28:32,700 - INFO -   0.5 hours: 9 records
+2025-09-06 14:28:32,700 - INFO -   1.0 hours: 171 records
+2025-09-06 14:28:32,700 - INFO -   1.25 hours: 3 records
+2025-09-06 14:28:32,700 - INFO -   1.5 hours: 72 records
+2025-09-06 14:28:32,700 - INFO -   1.75 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   2.0 hours: 125 records
+2025-09-06 14:28:32,700 - INFO -   2.25 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   2.5 hours: 17 records
+2025-09-06 14:28:32,700 - INFO -   3.0 hours: 142 records
+2025-09-06 14:28:32,700 - INFO -   3.5 hours: 24 records
+2025-09-06 14:28:32,700 - INFO -   3.75 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   4.0 hours: 83 records
+2025-09-06 14:28:32,700 - INFO -   4.5 hours: 6 records
+2025-09-06 14:28:32,700 - INFO -   5.0 hours: 33 records
+2025-09-06 14:28:32,700 - INFO -   6.0 hours: 37 records
+2025-09-06 14:28:32,700 - INFO -   6.5 hours: 7 records
+2025-09-06 14:28:32,700 - INFO -   6.75 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   7.0 hours: 6 records
+2025-09-06 14:28:32,700 - INFO -   7.5 hours: 4 records
+2025-09-06 14:28:32,700 - INFO -   8.0 hours: 107 records
+2025-09-06 14:28:32,700 - INFO -   8.5 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   9.0 hours: 12 records
+2025-09-06 14:28:32,700 - INFO -   10.0 hours: 3 records
+2025-09-06 14:28:32,700 - INFO -   12.0 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   13.5 hours: 15 records
+2025-09-06 14:28:32,700 - INFO -   14.0 hours: 5 records
+2025-09-06 14:28:32,700 - INFO -   15.75 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   16.0 hours: 7 records
+2025-09-06 14:28:32,700 - INFO -   16.75 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   20.0 hours: 2 records
+2025-09-06 14:28:32,700 - INFO -   22.5 hours: 17 records
+2025-09-06 14:28:32,700 - INFO -   25.5 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   30.0 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   31.5 hours: 5 records
+2025-09-06 14:28:32,700 - INFO -   32.0 hours: 43 records
+2025-09-06 14:28:32,700 - INFO -   37.0 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   40.0 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   60.0 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   62.0 hours: 1 records
+2025-09-06 14:28:32,700 - INFO -   64.0 hours: 2 records
+2025-09-06 14:28:32,700 - INFO -   80.0 hours: 2 records
+2025-09-06 14:28:32,701 - INFO -   128.0 hours: 3 records
+2025-09-06 14:28:32,701 - INFO -   180.0 hours: 2 records
+2025-09-06 14:28:32,701 - INFO - 
+📊 Data Cleaning Results:
+2025-09-06 14:28:32,701 - INFO -   • Removed 10 rows with 0 hours
+2025-09-06 14:28:32,701 - INFO -   • Remaining rows: 990
+2025-09-06 14:28:32,701 - INFO -   • Volunteers with 0 hours only registered but did not complete the activity
+2025-09-06 14:28:32,746 - INFO - ✅ Saved Raw Data: data/processed/Raw_Data_20250906_142832.xlsx
+2025-09-06 14:28:32,746 - INFO - 
+📝 Adding Step 2: Data Preparation to Summary Report...
+2025-09-06 14:28:32,748 - INFO - ✅ Summary report updated: data/processed/YMCA_Volunteer_Summary_Report.txt
+2025-09-06 14:28:32,748 - INFO - 
+🎯 Deduplication Options Available:
+2025-09-06 14:28:32,748 - INFO - 1. By Activity: df.drop_duplicates(subset=['volunteerDate', 'assignment'])
+2025-09-06 14:28:32,748 - INFO - 2. By Person: df.drop_duplicates(subset=['volunteerDate'])
+2025-09-06 14:28:32,748 - INFO - 3. By Location: df.drop_duplicates(subset=['volunteerDate', 'branch'])
+2025-09-06 14:28:32,748 - INFO - 
+📋 Next Steps:
+2025-09-06 14:28:32,748 - INFO - 1. Review the Raw Data file for accuracy
+2025-09-06 14:28:32,748 - INFO - 2. Apply specific deduplication logic as needed
+2025-09-06 14:28:32,748 - INFO - 3. Check monthly for reporting errors
+2025-09-06 14:28:32,748 - INFO - 4. Apply manual adjustments for special programs
+2025-09-06 14:33:38,324 - INFO - 🏊‍♂️ YMCA Volunteer Data Preparation - Step 2
+2025-09-06 14:33:38,325 - INFO - ============================================================
+2025-09-06 14:33:38,325 - INFO - 🧹 Cleaning output directory: data/processed
+2025-09-06 14:33:38,325 - INFO -   • Removed: Raw_Data_20250906_142832.xlsx
+2025-09-06 14:33:38,325 - INFO -   • Removed: Y_Volunteer_2025_Statistics_20250906_142850.xlsx
+2025-09-06 14:33:38,325 - INFO -   • Removed: YMCA_Volunteer_Summary_Report.txt
+2025-09-06 14:33:38,325 - INFO - 📁 Using file: data/raw/VolunteerHistory_2025-01_to_2025-08.xlsx
+2025-09-06 14:33:38,429 - INFO - 
+🧹 Step 2: Preparing the Data...
+2025-09-06 14:33:38,429 - INFO - Initial rows: 1000
+2025-09-06 14:33:38,429 - INFO - Using Hours column: 'creditedHours'
+2025-09-06 14:33:38,429 - INFO - 
+Hours distribution:
+2025-09-06 14:33:38,432 - INFO -   0.0 hours: 10 records
+2025-09-06 14:33:38,432 - INFO -   0.25 hours: 12 records
+2025-09-06 14:33:38,432 - INFO -   0.5 hours: 9 records
+2025-09-06 14:33:38,432 - INFO -   1.0 hours: 171 records
+2025-09-06 14:33:38,432 - INFO -   1.25 hours: 3 records
+2025-09-06 14:33:38,432 - INFO -   1.5 hours: 72 records
+2025-09-06 14:33:38,432 - INFO -   1.75 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   2.0 hours: 125 records
+2025-09-06 14:33:38,432 - INFO -   2.25 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   2.5 hours: 17 records
+2025-09-06 14:33:38,432 - INFO -   3.0 hours: 142 records
+2025-09-06 14:33:38,432 - INFO -   3.5 hours: 24 records
+2025-09-06 14:33:38,432 - INFO -   3.75 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   4.0 hours: 83 records
+2025-09-06 14:33:38,432 - INFO -   4.5 hours: 6 records
+2025-09-06 14:33:38,432 - INFO -   5.0 hours: 33 records
+2025-09-06 14:33:38,432 - INFO -   6.0 hours: 37 records
+2025-09-06 14:33:38,432 - INFO -   6.5 hours: 7 records
+2025-09-06 14:33:38,432 - INFO -   6.75 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   7.0 hours: 6 records
+2025-09-06 14:33:38,432 - INFO -   7.5 hours: 4 records
+2025-09-06 14:33:38,432 - INFO -   8.0 hours: 107 records
+2025-09-06 14:33:38,432 - INFO -   8.5 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   9.0 hours: 12 records
+2025-09-06 14:33:38,432 - INFO -   10.0 hours: 3 records
+2025-09-06 14:33:38,432 - INFO -   12.0 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   13.5 hours: 15 records
+2025-09-06 14:33:38,432 - INFO -   14.0 hours: 5 records
+2025-09-06 14:33:38,432 - INFO -   15.75 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   16.0 hours: 7 records
+2025-09-06 14:33:38,432 - INFO -   16.75 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   20.0 hours: 2 records
+2025-09-06 14:33:38,432 - INFO -   22.5 hours: 17 records
+2025-09-06 14:33:38,432 - INFO -   25.5 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   30.0 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   31.5 hours: 5 records
+2025-09-06 14:33:38,432 - INFO -   32.0 hours: 43 records
+2025-09-06 14:33:38,432 - INFO -   37.0 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   40.0 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   60.0 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   62.0 hours: 1 records
+2025-09-06 14:33:38,432 - INFO -   64.0 hours: 2 records
+2025-09-06 14:33:38,432 - INFO -   80.0 hours: 2 records
+2025-09-06 14:33:38,432 - INFO -   128.0 hours: 3 records
+2025-09-06 14:33:38,432 - INFO -   180.0 hours: 2 records
+2025-09-06 14:33:38,433 - INFO - 
+📊 Data Cleaning Results:
+2025-09-06 14:33:38,433 - INFO -   • Removed 10 rows with 0 hours
+2025-09-06 14:33:38,433 - INFO -   • Remaining rows: 990
+2025-09-06 14:33:38,433 - INFO -   • Volunteers with 0 hours only registered but did not complete the activity
+2025-09-06 14:33:38,478 - INFO - ✅ Saved Raw Data: data/processed/Raw_Data_20250906_143338.xlsx
+2025-09-06 14:33:38,478 - INFO - 
+📝 Adding Step 2: Data Preparation to Summary Report...
+2025-09-06 14:33:38,480 - INFO - ✅ Summary report updated: data/processed/YMCA_Volunteer_Summary_Report.txt
+2025-09-06 14:33:38,480 - INFO - 
+🎯 Deduplication Options Available:
+2025-09-06 14:33:38,480 - INFO - 1. By Activity: df.drop_duplicates(subset=['volunteerDate', 'assignment'])
+2025-09-06 14:33:38,480 - INFO - 2. By Person: df.drop_duplicates(subset=['volunteerDate'])
+2025-09-06 14:33:38,480 - INFO - 3. By Location: df.drop_duplicates(subset=['volunteerDate', 'branch'])
+2025-09-06 14:33:38,480 - INFO - 
+📋 Next Steps:
+2025-09-06 14:33:38,480 - INFO - 1. Review the Raw Data file for accuracy
+2025-09-06 14:33:38,480 - INFO - 2. Apply specific deduplication logic as needed
+2025-09-06 14:33:38,480 - INFO - 3. Check monthly for reporting errors
+2025-09-06 14:33:38,480 - INFO - 4. Apply manual adjustments for special programs
