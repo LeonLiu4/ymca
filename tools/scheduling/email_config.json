@@ -1,0 +1,35 @@
+{
+  "smtp_server": "smtp.gmail.com",
+  "smtp_port": 587,
+  "sender_email": "your-email@gmail.com",
+  "sender_password": "your-app-password",
+  "use_tls": true,
+  "recipients": {
+    "data_processing": [
+      "data-team@ymca.org",
+      "manager@ymca.org"
+    ],
+    "reports": [
+      "reports@ymca.org",
+      "analytics@ymca.org"
+    ],
+    "errors": [
+      "it-support@ymca.org",
+      "admin@ymca.org"
+    ],
+    "test_group": [
+      "test@example.com"
+    ]
+  },
+  "enabled": false,
+  "templates": {
+    "data_processing_complete": {
+      "subject": "YMCA Data Processing Complete - {date}",
+      "body": "\nData processing has completed successfully.\n\nProcessing Details:\n- Date: {date}\n- Processing Type: {processing_type}\n- Files Processed: {files_processed}\n- Total Records: {total_records}\n- Output Files: {output_files}\n\nSummary:\n{summary}\n\nThe processed data is ready for review and reporting.\n\nBest regards,\nYMCA Data Processing System\n"
+    },
+    "processing_error": {
+      "subject": "YMCA Data Processing Error - {date}",
+      "body": "\nAn error occurred during data processing.\n\nError Details:\n- Date: {date}\n- Processing Type: {processing_type}\n- Error Message: {error_message}\n- Files Being Processed: {files_processed}\n\nPlease review the logs and take appropriate action.\n\nBest regards,\nYMCA Data Processing System\n"
+    }
+  }
+}

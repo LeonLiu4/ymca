@@ -9,6 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from src.utils.logging_config import setup_logger
 from src.utils.file_utils import load_excel_data, save_excel_data, find_latest_file, backup_and_save_excel_data
+from src.utils.email_notifier import notify_processing_complete, notify_processing_error
 
 logger = setup_logger(__name__, 'data_preparation.log')
 
@@ -195,43 +196,72 @@ def main():
     logger.info("🏊‍♂️ YMCA Volunteer Data Preparation - Step 2")
     logger.info("=" * 60)
     
-    # Clean output directory first
-    clean_output_directory()
+    input_files = []
+    output_files = []
+    processing_type = "Data Preparation"
     
-    # Find the most recent volunteer history file
-    latest_file = find_latest_file("VolunteerHistory_*.xlsx", "data/raw")
-    if not latest_file:
-        logger.error("❌ No VolunteerHistory_*.xlsx files found in data/raw")
-        return
-    logger.info(f"📁 Using file: {latest_file}")
-    
-    # Load data
-    df = load_volunteer_data(latest_file)
-    if df is None:
-        return
-    
-    # Step 2: Clean data (remove 0 hours)
-    df_cleaned = clean_volunteer_data(df)
-    
-    # Save raw data
-    raw_data_file = save_raw_data(df_cleaned)
-    
-    # Create summary report
-    summary_file = create_summary_report(df_cleaned)
-    
-    # Show deduplication options
-    logger.info("\n🎯 Deduplication Options Available:")
-    logger.info("1. By Activity: df.drop_duplicates(subset=['volunteerDate', 'assignment'])")
-    logger.info("2. By Person: df.drop_duplicates(subset=['volunteerDate'])")
-    logger.info("3. By Location: df.drop_duplicates(subset=['volunteerDate', 'branch'])")
-    
-    logger.info("\n📋 Next Steps:")
-    logger.info("1. Review the Raw Data file for accuracy")
-    logger.info("2. Apply specific deduplication logic as needed")
-    logger.info("3. Check monthly for reporting errors")
-    logger.info("4. Apply manual adjustments for special programs")
-    
-    return df_cleaned
+    try:
+        # Clean output directory first
+        clean_output_directory()
+        
+        # Find the most recent volunteer history file
+        latest_file = find_latest_file("VolunteerHistory_*.xlsx", "data/raw")
+        if not latest_file:
+            error_msg = "No VolunteerHistory_*.xlsx files found in data/raw"
+            logger.error(f"❌ {error_msg}")
+            notify_processing_error(processing_type, error_msg, input_files)
+            return
+        
+        logger.info(f"📁 Using file: {latest_file}")
+        input_files.append(latest_file)
+        
+        # Load data
+        df = load_volunteer_data(latest_file)
+        if df is None:
+            error_msg = f"Failed to load data from {latest_file}"
+            notify_processing_error(processing_type, error_msg, input_files)
+            return
+        
+        # Step 2: Clean data (remove 0 hours)
+        df_cleaned = clean_volunteer_data(df)
+        
+        # Save raw data
+        raw_data_file = save_raw_data(df_cleaned)
+        output_files.append(raw_data_file)
+        
+        # Create summary report
+        summary_file = create_summary_report(df_cleaned)
+        output_files.append(summary_file)
+        
+        # Show deduplication options
+        logger.info("\n🎯 Deduplication Options Available:")
+        logger.info("1. By Activity: df.drop_duplicates(subset=['volunteerDate', 'assignment'])")
+        logger.info("2. By Person: df.drop_duplicates(subset=['volunteerDate'])")
+        logger.info("3. By Location: df.drop_duplicates(subset=['volunteerDate', 'branch'])")
+        
+        logger.info("\n📋 Next Steps:")
+        logger.info("1. Review the Raw Data file for accuracy")
+        logger.info("2. Apply specific deduplication logic as needed")
+        logger.info("3. Check monthly for reporting errors")
+        logger.info("4. Apply manual adjustments for special programs")
+        
+        # Send completion notification
+        summary = f"Processed {len(df_cleaned)} records after removing {len(df) - len(df_cleaned) if df is not None else 0} records with 0 hours. Data is ready for deduplication and analysis."
+        notify_processing_complete(
+            processing_type=processing_type,
+            files_processed=input_files,
+            output_files=output_files,
+            total_records=len(df_cleaned),
+            summary=summary
+        )
+        
+        return df_cleaned
+        
+    except Exception as e:
+        error_msg = f"Unexpected error in data preparation: {str(e)}"
+        logger.error(f"❌ {error_msg}")
+        notify_processing_error(processing_type, error_msg, input_files)
+        raise
 
 if __name__ == "__main__":
     df = main()

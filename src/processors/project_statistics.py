@@ -10,6 +10,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from src.utils.logging_config import setup_logger
 from src.utils.file_utils import load_excel_data, find_latest_file, create_timestamped_backup
+from src.utils.email_notifier import notify_processing_complete, notify_processing_error
 
 logger = setup_logger(__name__, 'project_statistics.log')
 
@@ -381,72 +382,106 @@ Examples:
     logger.info(f"📁 Output format: {args.format.upper()}")
     logger.info(f"📁 Output directory: {args.output_dir}")
     
-    # Clean output directory first
-    clean_output_directory(args.output_dir)
+    input_files = []
+    output_files = []
+    processing_type = "Project Category Statistics"
     
-    # Find the most recent raw data file
-    latest_file = find_latest_file("Raw_Data_*.xlsx", "data/processed")
-    if not latest_file:
-        logger.error("❌ No Raw_Data_*.xlsx files found in data/processed directory")
-        return
-    logger.info(f"📁 Using file: {latest_file}")
-    
-    # Load data
-    df = load_raw_data(latest_file)
-    if df is None:
-        return
-    
-    # Analyze data structure
-    df = analyze_data_structure(df)
-    
-    # Create pivot tables
-    hours_pivot = create_hours_pivot(df)
-    volunteers_pivot = create_volunteers_pivot(df)
-    projects_pivot = create_projects_pivot(df)
-    
-    # Apply manual adjustments
-    projects_pivot_adjusted, adjustments = apply_manual_adjustments(projects_pivot)
-    
-    # Create report in requested format
-    report_file = create_excel_report(hours_pivot, volunteers_pivot, projects_pivot_adjusted, adjustments, args.output_dir, args.format)
-    
-    # Add to comprehensive summary report
-    summary_file = create_step3_summary_report(hours_pivot, volunteers_pivot, projects_pivot_adjusted, adjustments, args.output_dir)
-    
-    logger.info("\n🎯 Summary for PowerPoint Report:")
-    logger.info(f"📊 Hours Statistics: {len(hours_pivot)} project categories")
-    logger.info(f"👥 Volunteers Statistics: {len(volunteers_pivot)} project categories")
-    logger.info(f"🏗️ Projects Statistics: {len(projects_pivot_adjusted)} unique projects")
-    
-    if args.format.lower() == "csv":
-        logger.info(f"📁 CSV files ready for data sharing:")
-        if isinstance(report_file, list):
-            for file_path in report_file:
-                logger.info(f"  • {os.path.basename(file_path)}")
-    else:
-        logger.info(f"📁 Excel file ready for PowerPoint: {os.path.basename(report_file)}")
-    
-    logger.info(f"📝 Summary report updated: {os.path.basename(summary_file)}")
-    
-    logger.info("\n📋 Next Steps:")
-    if args.format.lower() == "csv":
-        logger.info("1. Review the CSV files for accuracy")
-        logger.info("2. Import CSV data into your preferred analysis tool")
-        logger.info("3. Use for data sharing and backup purposes")
-    else:
-        logger.info("1. Review the Excel file for accuracy")
-        logger.info("2. Import data into PowerPoint: Y Monthly Statistics Report 8.31.2025")
-    logger.info("3. Verify manual adjustments for Competitive Swim and Gymnastics")
-    logger.info("4. Confirm total of 6 projects as expected")
-    
-    return {
-        'hours_pivot': hours_pivot,
-        'volunteers_pivot': volunteers_pivot,
-        'projects_pivot': projects_pivot_adjusted,
-        'report_file': report_file,
-        'summary_file': summary_file,
-        'format': args.format
-    }
+    try:
+        # Clean output directory first
+        clean_output_directory(args.output_dir)
+        
+        # Find the most recent raw data file
+        latest_file = find_latest_file("Raw_Data_*.xlsx", "data/processed")
+        if not latest_file:
+            error_msg = "No Raw_Data_*.xlsx files found in data/processed directory"
+            logger.error(f"❌ {error_msg}")
+            notify_processing_error(processing_type, error_msg, input_files)
+            return
+        
+        logger.info(f"📁 Using file: {latest_file}")
+        input_files.append(latest_file)
+        
+        # Load data
+        df = load_raw_data(latest_file)
+        if df is None:
+            error_msg = f"Failed to load data from {latest_file}"
+            notify_processing_error(processing_type, error_msg, input_files)
+            return
+        
+        # Analyze data structure
+        df = analyze_data_structure(df)
+        
+        # Create pivot tables
+        hours_pivot = create_hours_pivot(df)
+        volunteers_pivot = create_volunteers_pivot(df)
+        projects_pivot = create_projects_pivot(df)
+        
+        # Apply manual adjustments
+        projects_pivot_adjusted, adjustments = apply_manual_adjustments(projects_pivot)
+        
+        # Create report in requested format
+        report_file = create_excel_report(hours_pivot, volunteers_pivot, projects_pivot_adjusted, adjustments, args.output_dir, args.format)
+        output_files.append(report_file)
+        
+        # Add to comprehensive summary report
+        summary_file = create_step3_summary_report(hours_pivot, volunteers_pivot, projects_pivot_adjusted, adjustments, args.output_dir)
+        output_files.append(summary_file)
+        
+        logger.info("\n🎯 Summary for PowerPoint Report:")
+        logger.info(f"📊 Hours Statistics: {len(hours_pivot)} project categories")
+        logger.info(f"👥 Volunteers Statistics: {len(volunteers_pivot)} project categories")
+        logger.info(f"🏗️ Projects Statistics: {len(projects_pivot_adjusted)} unique projects")
+        
+        if args.format.lower() == "csv":
+            logger.info(f"📁 CSV files ready for data sharing:")
+            if isinstance(report_file, list):
+                for file_path in report_file:
+                    logger.info(f"  • {os.path.basename(file_path)}")
+        else:
+            logger.info(f"📁 Excel file ready for PowerPoint: {os.path.basename(report_file)}")
+        
+        logger.info(f"📝 Summary report updated: {os.path.basename(summary_file)}")
+        
+        logger.info("\n📋 Next Steps:")
+        if args.format.lower() == "csv":
+            logger.info("1. Review the CSV files for accuracy")
+            logger.info("2. Import CSV data into your preferred analysis tool")
+            logger.info("3. Use for data sharing and backup purposes")
+        else:
+            logger.info("1. Review the Excel file for accuracy")
+            logger.info("2. Import data into PowerPoint: Y Monthly Statistics Report 8.31.2025")
+        logger.info("3. Verify manual adjustments for Competitive Swim and Gymnastics")
+        logger.info("4. Confirm total of 6 projects as expected")
+        
+        # Send completion notification
+        total_hours = hours_pivot['TOTAL_HOURS'].sum()
+        total_volunteers = volunteers_pivot['UNIQUE_VOLUNTEERS'].sum()
+        summary = f"Generated project statistics with {len(hours_pivot)} categories, {total_hours:.1f} total hours, {total_volunteers} volunteers, and {len(projects_pivot_adjusted)} unique projects. Report ready for PowerPoint integration."
+        
+        notify_processing_complete(
+            processing_type=processing_type,
+            files_processed=input_files,
+            output_files=output_files,
+            total_records=len(df),
+            summary=summary,
+            recipient_group="reports",
+            attachments=[report_file] if not isinstance(report_file, list) else report_file
+        )
+        
+        return {
+            'hours_pivot': hours_pivot,
+            'volunteers_pivot': volunteers_pivot,
+            'projects_pivot': projects_pivot_adjusted,
+            'report_file': report_file,
+            'summary_file': summary_file,
+            'format': args.format
+        }
+        
+    except Exception as e:
+        error_msg = f"Unexpected error in project statistics: {str(e)}"
+        logger.error(f"❌ {error_msg}")
+        notify_processing_error(processing_type, error_msg, input_files)
+        raise
 
 if __name__ == "__main__":
     results = main()

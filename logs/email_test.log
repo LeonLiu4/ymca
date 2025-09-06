@@ -1,0 +1,82 @@
+2025-09-06 21:32:41,268 - INFO - 🏊‍♂️ YMCA Email Notification System - Test Suite
+2025-09-06 21:32:41,268 - INFO - ============================================================
+2025-09-06 21:32:41,268 - INFO - 
+🧪 Running Configuration Test...
+2025-09-06 21:32:41,269 - INFO - 
+🔧 Testing Email Configuration...
+2025-09-06 21:32:41,269 - INFO - ✅ Default configuration created: test_email_config.json
+2025-09-06 21:32:41,269 - INFO - ✅ Configuration loaded successfully
+2025-09-06 21:32:41,269 - INFO - 📧 Available recipient groups: ['data_processing', 'reports', 'errors']
+2025-09-06 21:32:41,270 - INFO - 🧹 Cleaned up test config file
+2025-09-06 21:32:41,270 - INFO - 
+🧪 Running Connection Test...
+2025-09-06 21:32:41,270 - INFO - 
+📡 Testing Email Connection...
+2025-09-06 21:32:41,270 - INFO - 📧 Email notifications are disabled - skipping connection test
+2025-09-06 21:32:41,270 - INFO - 💡 To enable: set 'enabled': true in email_config.json and update SMTP settings
+2025-09-06 21:32:41,270 - INFO - 
+🧪 Running Notification Functions Test...
+2025-09-06 21:32:41,270 - INFO - 
+📨 Testing Notification Functions...
+2025-09-06 21:32:41,270 - INFO - Testing processing complete notification...
+2025-09-06 21:32:41,271 - INFO - ℹ️ Processing complete notification test completed (notifications may be disabled)
+2025-09-06 21:32:41,271 - INFO - Testing processing error notification...
+2025-09-06 21:32:41,271 - INFO - ℹ️ Processing error notification test completed (notifications may be disabled)
+2025-09-06 21:32:41,271 - INFO - 
+🧪 Running Advanced Features Test...
+2025-09-06 21:32:41,271 - INFO - 
+🚀 Testing Advanced Features...
+2025-09-06 21:32:41,272 - INFO - Testing recipient management...
+2025-09-06 21:32:41,272 - INFO - ✅ Recipient management test: successful
+2025-09-06 21:32:41,272 - INFO - Testing notification with attachments...
+2025-09-06 21:32:41,272 - INFO - ✅ Advanced features test: completed
+2025-09-06 21:32:41,272 - INFO - 
+📊 Test Results Summary
+2025-09-06 21:32:41,272 - INFO - ------------------------------
+2025-09-06 21:32:41,272 - INFO - Configuration Test: ✅ PASSED
+2025-09-06 21:32:41,273 - INFO - Connection Test: ✅ PASSED
+2025-09-06 21:32:41,273 - INFO - Notification Functions Test: ✅ PASSED
+2025-09-06 21:32:41,273 - INFO - Advanced Features Test: ✅ PASSED
+2025-09-06 21:32:41,273 - INFO - 
+📖 Email Configuration Help
+2025-09-06 21:32:41,273 - INFO - ==================================================
+2025-09-06 21:32:41,273 - INFO - 
+To enable email notifications:
+
+1. Update email_config.json with your SMTP settings:
+   - smtp_server: Your SMTP server (e.g., smtp.gmail.com)
+   - smtp_port: SMTP port (usually 587 for TLS)
+   - sender_email: Your email address
+   - sender_password: Your app password (not regular password!)
+   - use_tls: true (recommended)
+
+2. Set "enabled": true in the configuration
+
+3. Update recipient lists for different notification types:
+   - data_processing: General data processing notifications
+   - reports: Report generation notifications  
+   - errors: Error notifications
+
+4. For Gmail users:
+   - Enable 2-Factor Authentication
+   - Generate an App Password (not your regular password)
+   - Use the App Password in sender_password
+
+Example configuration:
+{
+  "smtp_server": "smtp.gmail.com",
+  "smtp_port": 587,
+  "sender_email": "your-email@gmail.com", 
+  "sender_password": "your-16-char-app-password",
+  "use_tls": true,
+  "enabled": true,
+  "recipients": {
+    "data_processing": ["team@ymca.org"],
+    "reports": ["reports@ymca.org"],
+    "errors": ["admin@ymca.org"]
+  }
+}
+
+2025-09-06 21:32:41,273 - INFO - 
+✅ Email notification system test suite completed!
+2025-09-06 21:32:41,273 - INFO - 💡 To enable notifications, update email_config.json with your SMTP settings

@@ -1,0 +1,12 @@
+2025-09-06 21:32:41,269 - WARNING - ⚠️ Email config file not found: test_email_config.json
+2025-09-06 21:32:41,269 - INFO - ✅ Default email configuration created: test_email_config.json
+2025-09-06 21:32:41,269 - INFO - ⚠️ Please update the configuration with your SMTP settings
+2025-09-06 21:32:41,269 - INFO - ✅ Email configuration loaded from test_email_config.json
+2025-09-06 21:32:41,270 - INFO - ✅ Email configuration loaded from email_config.json
+2025-09-06 21:32:41,271 - INFO - ✅ Email configuration loaded from email_config.json
+2025-09-06 21:32:41,271 - INFO - 📧 Email notifications are disabled
+2025-09-06 21:32:41,271 - INFO - ✅ Email configuration loaded from email_config.json
+2025-09-06 21:32:41,271 - INFO - 📧 Email notifications are disabled
+2025-09-06 21:32:41,271 - INFO - ✅ Email configuration loaded from email_config.json
+2025-09-06 21:32:41,272 - INFO - ✅ Added recipient test@example.com to group test_group
+2025-09-06 21:32:41,272 - INFO - 📧 Email notifications are disabled
