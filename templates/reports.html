@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - YMCA Data Processing{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>📈 Generated Reports</h2>
+    <p>Browse and download all generated reports and analysis files.</p>
+</div>
+
+{% if reports %}
+    <div class="card">
+        <h3>📊 Chart Reports</h3>
+        {% set chart_reports = reports | selectattr('type', 'in', ['.json', '.png', '.jpg', '.jpeg', '.svg']) | list %}
+        {% if chart_reports %}
+            <div class="file-grid">
+                {% for report in chart_reports %}
+                <div class="file-item">
+                    <h4>{{ report.name }}</h4>
+                    <div style="margin: 0.5rem 0;">
+                        {% if report.type in ['.png', '.jpg', '.jpeg', '.svg'] %}
+                            <span style="background: #e3f2fd; color: #1976d2; padding: 0.25rem 0.5rem; border-radius: 3px; font-size: 0.8rem;">
+                                📊 Image
+                            </span>
+                        {% elif report.type == '.json' %}
+                            <span style="background: #f3e5f5; color: #7b1fa2; padding: 0.25rem 0.5rem; border-radius: 3px; font-size: 0.8rem;">
+                                📋 Data
+                            </span>
+                        {% endif %}
+                    </div>
+                    <p><strong>Size:</strong> {{ "%.2f"|format(report.size / 1024) }} KB</p>
+                    <p><strong>Modified:</strong> {{ report.modified[:19] }}</p>
+                    <a href="{{ url_for('download_file', filename=report.name) }}" class="btn btn-secondary">Download</a>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No chart reports found.</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h3>📑 Data Reports</h3>
+        {% set data_reports = reports | selectattr('type', 'in', ['.xlsx', '.csv', '.txt']) | list %}
+        {% if data_reports %}
+            <div class="file-grid">
+                {% for report in data_reports %}
+                <div class="file-item">
+                    <h4>{{ report.name }}</h4>
+                    <div style="margin: 0.5rem 0;">
+                        {% if report.type == '.xlsx' %}
+                            <span style="background: #e8f5e8; color: #2e7d32; padding: 0.25rem 0.5rem; border-radius: 3px; font-size: 0.8rem;">
+                                📊 Excel
+                            </span>
+                        {% elif report.type == '.csv' %}
+                            <span style="background: #fff3e0; color: #f57c00; padding: 0.25rem 0.5rem; border-radius: 3px; font-size: 0.8rem;">
+                                📋 CSV
+                            </span>
+                        {% elif report.type == '.txt' %}
+                            <span style="background: #f5f5f5; color: #424242; padding: 0.25rem 0.5rem; border-radius: 3px; font-size: 0.8rem;">
+                                📄 Text
+                            </span>
+                        {% endif %}
+                    </div>
+                    <p><strong>Size:</strong> {{ "%.2f"|format(report.size / 1024) }} KB</p>
+                    <p><strong>Modified:</strong> {{ report.modified[:19] }}</p>
+                    <a href="{{ url_for('download_file', filename=report.name) }}" class="btn btn-secondary">Download</a>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No data reports found.</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h3>📁 All Reports Summary</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Size</th>
+                    <th>Modified</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td><strong>{{ report.name }}</strong></td>
+                    <td>{{ report.type.upper() }}</td>
+                    <td>{{ "%.2f"|format(report.size / 1024) }} KB</td>
+                    <td>{{ report.modified[:19] }}</td>
+                    <td>
+                        <a href="{{ url_for('download_file', filename=report.name) }}" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.9rem;">
+                            Download
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% else %}
+    <div class="card">
+        <div style="text-align: center; padding: 3rem;">
+            <h3>📭 No reports available</h3>
+            <p>No reports have been generated yet. Start data processing from the dashboard to create reports.</p>
+            <a href="{{ url_for('dashboard') }}" class="btn">Start Processing</a>
+        </div>
+    </div>
+{% endif %}
+
+<div class="card">
+    <h2>ℹ️ Report Types</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+        <div>
+            <h4>📊 Chart Files</h4>
+            <ul>
+                <li><strong>JSON:</strong> Chart data and configurations</li>
+                <li><strong>PNG/JPG:</strong> Generated chart images</li>
+                <li><strong>SVG:</strong> Vector chart graphics</li>
+            </ul>
+        </div>
+        <div>
+            <h4>📋 Data Files</h4>
+            <ul>
+                <li><strong>XLSX:</strong> Excel spreadsheets with processed data</li>
+                <li><strong>CSV:</strong> Comma-separated values files</li>
+                <li><strong>TXT:</strong> Text reports and summaries</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
