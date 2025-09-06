@@ -54,3 +54,159 @@ Completed: 2025-09-06 13:27:17
   • Excel file contains separate sheets for each statistic type
   • Verify total of 6 projects as expected
   • Review manual adjustments for accuracy
+
+============================================================
+PAGES 2-5: BRANCH/SITE BREAKDOWN
+============================================================
+Date: 2025-09-06 13:31:00
+Excel File: Y_Volunteer_2025_Branch_Breakdown_20250906_133100.xlsx
+
+BRANCH HOURS (No Deduplication):
+  • Total Branches: 1
+  • Total Hours: 6644.75
+  • Method: BRANCH and HOURS (sum)
+
+ACTIVE VOLUNTEERS (Deduplicated):
+  • Total Branches: 1
+  • Total Active Volunteers: 408
+  • Method: Deduplicate by ASSIGNEE, BRANCH
+  • Pivot: BRANCH and ASSIGNEE (count)
+
+MEMBER VOLUNTEERS (Filtered):
+  • Total Branches: 1
+  • Total Member Volunteers: 287
+  • Method: Filter by 'ARE YOU A YMCA MEMBER' = 'Yes'
+  • Pivot: MEMBER BRANCH and count
+
+TOP BRANCHES BY HOURS:
+  • Unknown Branch: 6644.75 hours
+
+TOP BRANCHES BY ACTIVE VOLUNTEERS:
+  • Unknown Branch: 408 volunteers
+
+TOP BRANCHES BY MEMBER VOLUNTEERS:
+  • Unknown Branch: 287 member volunteers
+
+NOTES:
+  • Branch Hours: No deduplication - includes all volunteer hours
+  • Active Volunteers: Deduplicated by volunteer and branch
+  • Member Volunteers: Filtered from active volunteers who are YMCA members
+  • Data ready for PowerPoint: Y Monthly Statistics Report 8.31.2025
+
+============================================================
+PAGES 2-5: BRANCH/SITE BREAKDOWN
+============================================================
+Date: 2025-09-06 13:31:20
+Excel File: Y_Volunteer_2025_Branch_Breakdown_20250906_133120.xlsx
+
+BRANCH HOURS (No Deduplication):
+  • Total Branches: 16
+  • Total Hours: 6644.75
+  • Method: BRANCH and HOURS (sum)
+
+ACTIVE VOLUNTEERS (Deduplicated):
+  • Total Branches: 16
+  • Total Active Volunteers: 411
+  • Method: Deduplicate by ASSIGNEE, BRANCH
+  • Pivot: BRANCH and ASSIGNEE (count)
+
+MEMBER VOLUNTEERS (Filtered):
+  • Total Branches: 16
+  • Total Member Volunteers: 286
+  • Method: Filter by 'ARE YOU A YMCA MEMBER' = 'Yes'
+  • Pivot: MEMBER BRANCH and count
+
+TOP BRANCHES BY HOURS:
+  • R.C. Durr YMCA: 1756.5 hours
+  • Colerain Senior Center: 1182.0 hours
+  • R.C. Durr - Senior Centers: 1133.0 hours
+  • Blue Ash YMCA: 649.5 hours
+  • Camp Ernst: 583.0 hours
+
+TOP BRANCHES BY ACTIVE VOLUNTEERS:
+  • Camp Ernst: 77 volunteers
+  • R.C. Durr YMCA: 72 volunteers
+  • Blue Ash YMCA: 42 volunteers
+  • Gamble-Nippert YMCA: 36 volunteers
+  • R.C. Durr - Senior Centers: 34 volunteers
+
+TOP BRANCHES BY MEMBER VOLUNTEERS:
+  • Camp Ernst: 53 member volunteers
+  • R.C. Durr YMCA: 52 member volunteers
+  • R.C. Durr - Senior Centers: 29 member volunteers
+  • Gamble-Nippert YMCA: 26 member volunteers
+  • Blue Ash YMCA: 25 member volunteers
+
+NOTES:
+  • Branch Hours: No deduplication - includes all volunteer hours
+  • Active Volunteers: Deduplicated by volunteer and branch
+  • Member Volunteers: Filtered from active volunteers who are YMCA members
+  • Data ready for PowerPoint: Y Monthly Statistics Report 8.31.2025
+
+============================================================
+PAGE 6: YOUTH DEVELOPMENT & EDUCATION BREAKDOWN
+============================================================
+Date: 2025-09-06 13:46:48
+Excel File: Y_Volunteer_2025_YDE_Breakdown_20250906_134648.xlsx
+
+YDE CATEGORIES:
+  • YDE - Community Services (includes Music Resource Center)
+  • YDE - Early Learning Centers
+  • YDE - Out of School Time
+
+YDE HOURS (No Deduplication):
+  • YDE - Community Services: 119.5 hours
+  • YDE - Out of School Time: 79.5 hours
+
+YDE VOLUNTEERS (Deduplicated):
+  • YDE - Community Services: 26 volunteers
+  • YDE - Out of School Time: 6 volunteers
+
+YDE PROJECTS (Unique Count):
+  • YDE - Out of School Time: 4 unique projects
+  • YDE - Community Services: 3 unique projects
+
+NOTES:
+  • Music Resource Center is included in YDE - Community Services
+  • Categories based on project name analysis
+  • Volunteers deduplicated by contact and YDE category
+  • Data ready for PowerPoint: Y Monthly Statistics Report 8.31.2025
+
+============================================================
+PAGE 7: YMCA & SENIOR CENTERS BREAKDOWN
+============================================================
+Date: 2025-09-06 13:46:55
+Excel File: Y_Volunteer_2025_Senior_Centers_20250906_134655.xlsx
+
+SENIOR CENTER COMBINATIONS:
+  • Clippard YMCA + Clippard Senior Center
+  • R.C. Durr YMCA + Kentucky Senior Center
+  • Other Senior Centers
+
+SENIOR CENTERS HOURS (No Deduplication):
+  • R.C. Durr YMCA + Kentucky Senior Center: 2889.5 hours
+  • Other Senior Centers: 1182.0 hours
+  • Clippard YMCA + Clippard Senior Center: 253.5 hours
+
+SENIOR CENTERS VOLUNTEERS (Deduplicated):
+  • R.C. Durr YMCA + Kentucky Senior Center: 106 volunteers
+  • Other Senior Centers: 27 volunteers
+  • Clippard YMCA + Clippard Senior Center: 11 volunteers
+
+DETAILED BREAKDOWN BY BRANCH:
+
+Clippard YMCA + Clippard Senior Center:
+  • Clippard  YMCA: 253.5 hours, 11 volunteers
+
+Other Senior Centers:
+  • Colerain Senior Center: 1182.0 hours, 27 volunteers
+
+R.C. Durr YMCA + Kentucky Senior Center:
+  • R.C. Durr YMCA: 1756.5 hours, 72 volunteers
+  • R.C. Durr - Senior Centers: 1133.0 hours, 34 volunteers
+
+NOTES:
+  • Combines YMCA and Senior Center data for ease of reading
+  • Two main combinations: Clippard and R.C. Durr
+  • Volunteers deduplicated by contact and Senior Center category
+  • Data ready for PowerPoint: Y Monthly Statistics Report 8.31.2025
